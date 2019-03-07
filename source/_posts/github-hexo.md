@@ -146,18 +146,8 @@ INFO  Copying files from public folder...
 
 具体的迁移方式详见：[创建Git分支将Hexo博客迁移到其它电脑](https://blog.csdn.net/White_Idiot/article/details/80685990)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#### 最后来说说git提交的三部曲
+1. 本地发生改变之后，利用 **`git status`** 查看当前的改变情况
+2. 利用 **``git add .``** 将当前的改变添加到缓存区
+3. 指令 **``git commit -m "注释"``** 提交文件
+4. **``git push origin xxxx(分支名)``** 更新到分支
