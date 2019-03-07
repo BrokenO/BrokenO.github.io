@@ -76,6 +76,7 @@ pagination_dir: page
 theme: next #landscape #next
 plugins : hexo-generate-feed
 
+
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:

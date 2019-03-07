@@ -1,7 +1,7 @@
 # ---------------------------------------------------------------
 # Site Information Settings
 # ---------------------------------------------------------------
-
+description: stay hungry,stay foolish
 # Put your favicon.ico into `hexo-site/source/` directory.
 favicon: images/favicon.ico
 
@@ -674,5 +674,12 @@ since: 2018
 # 文章末尾添加“本文结束”标记
 passage_end_tag:
   enabled: true
+
+#hexo sitemap
+sitemap:
+  path: sitemap.xml
+baidusitemap:
+  path: baidusitemap.xml
+
   
 
