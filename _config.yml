@@ -81,7 +81,7 @@ plugins : hexo-generate-feed
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: https://github.com/BrokenO/BrokenO.github.io.git
+  repo: https://GH_TOKEN@github.com/BrokenO/BrokenO.github.io.git
   branch: master
 # Post wordcount display settings
 # Dependencies: https://github.com/willin/hexo-wordcount
