@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="blog,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="刘鹏(BrokenO)" type="application/atom+xml">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="老规矩，https是什么？网络之所以要分层主要是因为网络的不确定性 http是明文传输，通信不安全 https 在网络分层模型中并不是一个单独的分层 https只是在http与tcp之间添加了一个TLS或者SSL的中间件用于保证通信安全 Https的安全保证基于 对称加密，非对称加密以及验证验证与签名。 对称加密通信双方拥有相同的密钥。发送方用密钥加密，接收方用相同的密钥解密 称之为 对称加密 1">
+<meta name="keywords" content="blog">
+<meta property="og:type" content="article">
+<meta property="og:title" content="https 加密解密以及验证与签名">
+<meta property="og:url" content="http://yoursite.com/2019/03/08/https/index.html">
+<meta property="og:site_name" content="刘鹏(BrokenO)">
+<meta property="og:description" content="老规矩，https是什么？网络之所以要分层主要是因为网络的不确定性 http是明文传输，通信不安全 https 在网络分层模型中并不是一个单独的分层 https只是在http与tcp之间添加了一个TLS或者SSL的中间件用于保证通信安全 Https的安全保证基于 对称加密，非对称加密以及验证验证与签名。 对称加密通信双方拥有相同的密钥。发送方用密钥加密，接收方用相同的密钥解密 称之为 对称加密 1">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/2019/03/08/7e0a4a60-4155-11e9-a650-ffecf938c9ad.png">
+<meta property="og:image" content="http://yoursite.com/images/2019/03/08/3c7aa570-4184-11e9-a650-ffecf938c9ad.png">
+<meta property="og:image" content="http://yoursite.com/images/2019/03/08/e026e3b0-418d-11e9-a650-ffecf938c9ad.png">
+<meta property="og:updated_time" content="2019-10-23T03:07:30.609Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="https 加密解密以及验证与签名">
+<meta name="twitter:description" content="老规矩，https是什么？网络之所以要分层主要是因为网络的不确定性 http是明文传输，通信不安全 https 在网络分层模型中并不是一个单独的分层 https只是在http与tcp之间添加了一个TLS或者SSL的中间件用于保证通信安全 Https的安全保证基于 对称加密，非对称加密以及验证验证与签名。 对称加密通信双方拥有相同的密钥。发送方用密钥加密，接收方用相同的密钥解密 称之为 对称加密 1">
+<meta name="twitter:image" content="http://yoursite.com/images/2019/03/08/7e0a4a60-4155-11e9-a650-ffecf938c9ad.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/03/08/https/">
+
+
+
+
+
+  <title>https 加密解密以及验证与签名 | 刘鹏(BrokenO)</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+    <a href="https://your-url" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewbox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">刘鹏(BrokenO)</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Stay hungry, Stay foolish</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>
+            
+            站点地图
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/08/https/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="（BrokenO)">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="刘鹏(BrokenO)">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">https 加密解密以及验证与签名</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-08T10:55:21+08:00">
+                2019-03-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/HTTP/" itemprop="url" rel="index">
+                    <span itemprop="name">HTTP</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="老规矩，https是什么？"><a href="#老规矩，https是什么？" class="headerlink" title="老规矩，https是什么？"></a>老规矩，https是什么？</h3><p><strong>网络之所以要分层主要是因为网络的不确定性</strong></p>
+<p>http是明文传输，通信不安全</p>
+<p>https 在网络分层模型中并不是一个单独的分层</p>
+<p>https只是在http与tcp之间添加了一个TLS或者SSL的中间件用于保证通信安全</p>
+<p>Https的安全保证基于 <strong>对称加密，非对称加密以及验证验证与签名。</strong></p>
+<h3 id="对称加密"><a href="#对称加密" class="headerlink" title="对称加密"></a>对称加密</h3><p>通信双方拥有相同的密钥。发送方用密钥加密，接收方用相同的密钥解密 称之为 对称加密</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">优点：算法公开、计算量小、加密速度快、加密效率高</span><br><span class="line"></span><br><span class="line">缺点：密钥不好传输，（https使用的是传递参数，双方通过一定的规则生成密钥）</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>相关的算法 ： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">AES : 密钥的长度可以为128、192、256位，也就是16个字节、24个字节、32个字节</span><br><span class="line"></span><br><span class="line">DES：密钥的长度64位，8个字节，由于密码太短，已经被启用</span><br></pre></td></tr></table></figure>
+<h3 id="非对称加密"><a href="#非对称加密" class="headerlink" title="非对称加密"></a>非对称加密</h3><p>通信双方均拥有各自的公钥与私钥，发送方使用 <strong>接收方的公钥</strong> 加密，接收方接收到数据后用<strong>自己的私钥解密</strong>。接收方使用发送方的公钥加密，发送方使用自己的私钥解密，称之为非对称加密。</p>
+<p>简称 <strong>公钥加密，私钥解密</strong></p>
+<p>优点： 公钥传输方便安全</p>
+<p>缺点：算法复杂，加密速度慢</p>
+<p>相关的算法：RSA DSA（比特币使用该算法，只用于数字签名） ，ECC（椭圆曲线算法）</p>
+<h3 id="验证与签名"><a href="#验证与签名" class="headerlink" title="验证与签名"></a>验证与签名</h3><p>验证的目的是为了证明 <strong>信息的发送方</strong>，签名的目的是为了 <strong>验证发送的信息是否被篡改</strong></p>
+<p>用私钥加密，用公钥解密称之为 验证。</p>
+<p>信息通过一定的hash算法生成摘要，然后用私钥加密 生成签名，然后将签名与hash算法附加在信息之后一起发送，接收方接收到数据之后用hash算法对信息进行hash，然后用发送方的公钥解密，对量两个的hash值。如果用公钥能解密，则说明信息来自与发送方，如果hash值一致则表示消息没有被篡改</p>
+<p><img src="/images/2019/03/08/7e0a4a60-4155-11e9-a650-ffecf938c9ad.png" alt="image.png"></p>
+<h3 id="数字证书"><a href="#数字证书" class="headerlink" title="数字证书"></a>数字证书</h3><p>数字证书包含了由受信任的机构担保的用户或公司的相关信息</p>
+<p>数字证书中的内容有：证书的发布者，证书发布者的数字签名，用户或公司的 公钥，用户或公司的主机名</p>
+<h3 id="https（TLS-SSL）的连接过程"><a href="#https（TLS-SSL）的连接过程" class="headerlink" title="https（TLS/SSL）的连接过程"></a>https（TLS/SSL）的连接过程</h3><p>1.A 向 B发送连接请求，会附加一个加密套件（cipersuite）以及一个随机数 X，其中加密套件中包含了对称加密算法，非对称加密算法，以及hash算法</p>
+<p>2.B接收到A的请求后会在cipersuite中选择对应的加密算法与非加密算法以及hash算法回传给B，同时也会附加一个随机数 Y</p>
+<p>3.同时B会回传自己的数字证书（用于对方获取自己的公钥）</p>
+<p>4.A收到B的回传之后，使用权威机构提供的公钥，验证证书是否为该机构颁发，再验证该证书的主机名是否与自己通信的主机名一致，最后过验证签名机制验证签名是否被更改，由此可以拿到B的公钥。</p>
+<p>5.拿到B的公钥之后A会再生成一个随机数 Z</p>
+<p>6.使用B的公钥将该随机数加密之后发送给B</p>
+<p>7.此时AB双方已经拥有了相同的随机数 X,Y,Z，加密算法，以及hash算法</p>
+<p>8.双方按照约定通过 <code>DH</code> 算法生成密钥</p>
+<p>9.双方通过加密后的密钥进行通信</p>
+<h3 id="DH（Diffie-Hellman）密钥交换算法"><a href="#DH（Diffie-Hellman）密钥交换算法" class="headerlink" title="DH（Diffie-Hellman）密钥交换算法"></a><a href="DH（Diffie-Hellman）">DH（Diffie-Hellman）</a>密钥交换算法</h3><p>DH算法的原理基于离散对数的难题 如下所示：<br><img src="/images/2019/03/08/3c7aa570-4184-11e9-a650-ffecf938c9ad.png" alt="image.png"></p>
+<p>解释一下</p>
+<ol>
+<li>通信甲、乙双方分别拥有两个相同的大数 P,G</li>
+<li>甲生成随机数 a, 通过算法 Ka = P<sup>a</sup> mod G 等到数 Ka</li>
+<li>乙同样生成随机数b，通过算法 Kb = P<sup>b</sup> mod G 等到数 Kb</li>
+<li>甲乙双方通过 <strong>非对称算法</strong> 将 Ka 与 Kb 传递给对方</li>
+<li>此时甲拥有的数为 ：P,G,a，kb；乙拥有的数为：P,G,b，ka</li>
+<li>甲通过 <strong>Kb<sup>a</sup> mod G = K1</strong> 生成密钥K1，乙通过 <strong>Ka<sup>b</sup> mod G = K2</strong> 生成K2，如果是通信双方，那么此时 K1 = K2</li>
+<li>就算有黑客获取到了数 P,G，以及Ka,Kb,但是当它们都是非常大的数的时候，依靠这四个数来计算a和b非常困难，<strong>这就是离散对数数学难题</strong>。 </li>
+</ol>
+<h3 id="最后我来梳理以下https底层生成密钥的流程"><a href="#最后我来梳理以下https底层生成密钥的流程" class="headerlink" title="最后我来梳理以下https底层生成密钥的流程"></a>最后我来梳理以下https底层生成密钥的流程</h3><ol>
+<li><p>甲向乙发送一个tcp请求（明文） ，明文中附带了一个随机数 <strong>P</strong> 以及 <strong>加密套件（cipersuit）</strong>，加密套件中包含了对称加密算法，非对称加密算法以及hash算法</p>
+</li>
+<li><p>乙收到之后选择对应的加密套件（对称加密算法，非对称加密算法以及hash算法），同时返回一个大随机数 <strong>G</strong>，此时甲乙共同拥有相同的随机数 <strong>P、G</strong> 以及加密套件。</p>
+</li>
+<li><p>乙会附带返回自己的数字证书给乙。</p>
+</li>
+<li><p>甲对乙的数字证书验证通过之后，会随机生成一个随机数 <strong>a</strong> ,通过 <strong>DH</strong> 算法生成随机数 <strong>Ka</strong>，然后通过双方选定的非对称加密算法将 <strong>Ka</strong> 发送给 乙。（此时已经建立了连接是密文了）</p>
+</li>
+<li><p>乙收到甲的随机数之后，乙也会生成一个随机数 <strong>b</strong>，也通过 <strong>DH</strong> 算法生成随机数 <strong>Kb</strong>，然后乙也同样会通过非对称加密将Kb发送给甲。</p>
+</li>
+<li><p>这一步结束之后 甲中拥有了 随机数 <strong>P、G、a、Kb</strong>，乙拥有了随机数：<strong>P、G、b、Ka</strong></p>
+</li>
+<li><p>甲通过 <strong>Kb<sup>a</sup> mod G = K1</strong> 生成密钥K1，乙通过 <strong>Ka<sup>b</sup> mod G = K2</strong> 生成K2 <strong>（DH算法）</strong></p>
+</li>
+<li><p>如果K1 == K2，那么表示通信的是甲乙双方。</p>
+</li>
+<li><p>甲乙通过密钥 K1 与 K2 互相通信。</p>
+</li>
+</ol>
+<p>最后来张图镇楼<br><img src="/images/2019/03/08/e026e3b0-418d-11e9-a650-ffecf938c9ad.png" alt="image.png"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+    <div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+  
+    </div>
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/blog/" rel="tag"><i class="fa fa-tag"></i> blog</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/07/http/" rel="next" title="http的思维逻辑">
+                <i class="fa fa-chevron-left"></i> http的思维逻辑
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/08/okhttp/" rel="prev" title="okhttp3 的工作原理与源码分析">
+                okhttp3 的工作原理与源码分析 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="（BrokenO)">
+          <p class="site-author-name" itemprop="name">（BrokenO)</p>
+           
+              <p class="site-description motion-element" itemprop="description">stay hungry,stay foolish</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#老规矩，https是什么？"><span class="nav-number">1.</span> <span class="nav-text">老规矩，https是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对称加密"><span class="nav-number">2.</span> <span class="nav-text">对称加密</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#非对称加密"><span class="nav-number">3.</span> <span class="nav-text">非对称加密</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#验证与签名"><span class="nav-number">4.</span> <span class="nav-text">验证与签名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数字证书"><span class="nav-number">5.</span> <span class="nav-text">数字证书</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#https（TLS-SSL）的连接过程"><span class="nav-number">6.</span> <span class="nav-text">https（TLS/SSL）的连接过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DH（Diffie-Hellman）密钥交换算法"><span class="nav-number">7.</span> <span class="nav-text">DH（Diffie-Hellman）密钥交换算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#最后我来梳理以下https底层生成密钥的流程"><span class="nav-number">8.</span> <span class="nav-text">最后我来梳理以下https底层生成密钥的流程</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <span class="footer__copyright">
+<div><span id="span_dt_dt"> </span>
+<script language="javascript">
+function show_date_time(){
+window.setTimeout("show_date_time()", 1000);
+BirthDay=new Date("9/9/2018 00:00:00");//这个日期是可以修改的
+today=new Date();
+timeold=(today.getTime()-BirthDay.getTime());//其实仅仅改了这里
+sectimeold=timeold/1000
+secondsold=Math.floor(sectimeold);
+msPerDay=24*60*60*1000
+e_daysold=timeold/msPerDay
+daysold=Math.floor(e_daysold);
+e_hrsold=(e_daysold-daysold)*24;
+hrsold=Math.floor(e_hrsold);
+e_minsold=(e_hrsold-hrsold)*60;
+minsold=Math.floor((e_hrsold-hrsold)*60);
+seconds=Math.floor((e_minsold-minsold)*60);
+span_dt_dt.innerHTML="博客已建立运行"+daysold+"天"+hrsold+"小时"+minsold+"分"+seconds+"秒 🐼 ";
+}
+show_date_time();
+</script></div>
+</span>
+<div class="copyright">
+  
+  &copy;  2018 - 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">（BrokenO)</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Gemini
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/clicklove.js"></script>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

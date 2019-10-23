@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="blog,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="刘鹏(BrokenO)" type="application/atom+xml">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="其实一直以来都有弄一个自己私人博客的想法，但一直没有付诸行动。其实前段时间也有在简书与掘金写过博客，但是总觉得那些博客弄得花里胡哨，不是自己想要的。最终决定搭建自己的博客系统是在两天前，有一个自己的安心写东西的地方，也好记录自己成长的脚印。 下面就分享一下自己通过HEXO + github搭建自己个人博客的踩坑与折腾过程（后续效果优化会持续更新）搭建环境：windows 10">
+<meta name="keywords" content="blog">
+<meta property="og:type" content="article">
+<meta property="og:title" content="利用github + Hexo搭建自己个人博客的踩坑过程">
+<meta property="og:url" content="http://yoursite.com/2019/03/07/github-hexo/index.html">
+<meta property="og:site_name" content="刘鹏(BrokenO)">
+<meta property="og:description" content="其实一直以来都有弄一个自己私人博客的想法，但一直没有付诸行动。其实前段时间也有在简书与掘金写过博客，但是总觉得那些博客弄得花里胡哨，不是自己想要的。最终决定搭建自己的博客系统是在两天前，有一个自己的安心写东西的地方，也好记录自己成长的脚印。 下面就分享一下自己通过HEXO + github搭建自己个人博客的踩坑与折腾过程（后续效果优化会持续更新）搭建环境：windows 10">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/2019/03/07/5fe5c8f0-408a-11e9-9621-77018395f2ce.png">
+<meta property="og:image" content="http://yoursite.com/images/2019/03/07/c0f6b910-408a-11e9-9621-77018395f2ce.png">
+<meta property="og:image" content="http://yoursite.com/images/2019/03/07/5e52b390-408f-11e9-9621-77018395f2ce.png">
+<meta property="og:image" content="http://yoursite.com/images/2019/03/07/14a5b330-4091-11e9-9621-77018395f2ce.png">
+<meta property="og:image" content="http://yoursite.com/images/2019/03/07/aeb6a8c0-4092-11e9-9621-77018395f2ce.png">
+<meta property="og:updated_time" content="2019-10-23T03:07:30.609Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="利用github + Hexo搭建自己个人博客的踩坑过程">
+<meta name="twitter:description" content="其实一直以来都有弄一个自己私人博客的想法，但一直没有付诸行动。其实前段时间也有在简书与掘金写过博客，但是总觉得那些博客弄得花里胡哨，不是自己想要的。最终决定搭建自己的博客系统是在两天前，有一个自己的安心写东西的地方，也好记录自己成长的脚印。 下面就分享一下自己通过HEXO + github搭建自己个人博客的踩坑与折腾过程（后续效果优化会持续更新）搭建环境：windows 10">
+<meta name="twitter:image" content="http://yoursite.com/images/2019/03/07/5fe5c8f0-408a-11e9-9621-77018395f2ce.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/03/07/github-hexo/">
+
+
+
+
+
+  <title>利用github + Hexo搭建自己个人博客的踩坑过程 | 刘鹏(BrokenO)</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+    <a href="https://your-url" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewbox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">刘鹏(BrokenO)</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Stay hungry, Stay foolish</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>
+            
+            站点地图
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/07/github-hexo/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="（BrokenO)">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="刘鹏(BrokenO)">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">利用github + Hexo搭建自己个人博客的踩坑过程</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-07T11:02:47+08:00">
+                2019-03-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Hexo/" itemprop="url" rel="index">
+                    <span itemprop="name">Hexo</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Hexo/Next/" itemprop="url" rel="index">
+                    <span itemprop="name">Next</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Hexo/Next/github/" itemprop="url" rel="index">
+                    <span itemprop="name">github</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>其实一直以来都有弄一个自己私人博客的想法，但一直没有付诸行动。其实前段时间也有在简书与掘金写过博客，但是总觉得那些博客弄得花里胡哨，不是自己想要的。最终决定搭建自己的博客系统是在两天前，有一个自己的安心写东西的地方，也好记录自己成长的脚印。</p>
+<p>下面就分享一下自己通过HEXO + github搭建自己个人博客的<strong>踩坑</strong>与折腾过程（后续效果优化会持续更新）<br>搭建环境：windows 10<br><a id="more"></a></p>
+<p>1.首先，我们搭建的基本原则是将个人博客文件上传到github，然后进行访问，所以首先需要注册一个github账号，新建一个repository<br><img src="/images/2019/03/07/5fe5c8f0-408a-11e9-9621-77018395f2ce.png" alt="image.png"></p>
+<p>如果仓库的名字与github不一致，则在设置界面下面的东西需要修改，选择master branch，且访问路径需要带上全程，即”<a href="http://github.com//xxxx.github.io&quot;" target="_blank" rel="noopener">http://github.com//xxxx.github.io&quot;</a></p>
+<p><img src="/images/2019/03/07/c0f6b910-408a-11e9-9621-77018395f2ce.png" alt="image.png"></p>
+<p>2.开始安装所需环境（<strong>git，nodejs</strong>）</p>
+<p>nodejs的下载路径：<a href="https://nodejs.org/en/" target="_blank" rel="noopener">Nodejs</a></p>
+<p>git的下载路径：<a href="https://github.com/waylau/git-for-win" target="_blank" rel="noopener">Git for Windows. 这里提供一个国内的下载站，方便网友下载</a></p>
+<p>当git安装完成之后需要配置git的全局用户名与邮箱（这里用户名就是你的github的用户名，邮箱为github注册邮箱）</p>
+<p>打开git bash 输入的命令行为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name &quot;你的github名称&quot;</span><br><span class="line">git config --global user.email &quot;你的github注册邮箱&quot;</span><br></pre></td></tr></table></figure></p>
+<p>如下图所示：<br><img src="/images/2019/03/07/5e52b390-408f-11e9-9621-77018395f2ce.png" alt="image.png"></p>
+<p>3.安装hexo运行环境</p>
+<p>命令行： <strong>npm install -g hexo-cli</strong> （如果找不到npm命令需要去配置环境变量）</p>
+<p>安装时间可能有点长，稍微等待一下</p>
+<p>4.hexo安装完成之后要开始初始化，切换到你博客想要放置的文件夹比方说 F：。然后执行以下指令：<br>hexo init xxxx（文件夹名），执行完成之后文件夹内容会如下所示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">INFO  Start blogging with Hexo!</span><br></pre></td></tr></table></figure></p>
+<p><img src="/images/2019/03/07/14a5b330-4091-11e9-9621-77018395f2ce.png" alt="image.png"></p>
+<p>因为你初始化hexo 之后source目录下自带一篇hello world文章, 所以直接执行下方命令<br>$ <strong>hexo generate</strong><br>启动本地服务器<br>$ <strong>hexo server</strong><br>在浏览器输入 <a href="http://localhost:4000/就可以看见网页和模板了" target="_blank" rel="noopener">http://localhost:4000/就可以看见网页和模板了</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">INFO  Start processing</span><br><span class="line">INFO  Hexo is running at http://localhost:4000/. Press Ctrl+C to stop.</span><br></pre></td></tr></table></figure></p>
+<p>此时你可以通过<a href="http://localhost:4000/看到你博客的样子了，接下来我们要将它部署到github，然后通过github来访问" target="_blank" rel="noopener">http://localhost:4000/看到你博客的样子了，接下来我们要将它部署到github，然后通过github来访问</a></p>
+<p>5.部署到github，部署到github先要来设置一个ssh key这个key的生成使用以下的指令：</p>
+<p><strong>ssh-keygen -t rsa -C “Github的注册邮箱地址”</strong></p>
+<p>一路Enter过来就可以了，最后会得到信息：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Your public key has been saved in /c/Users/user/.ssh/id_rsa.pub.</span><br></pre></td></tr></table></figure></p>
+<p>打开该文件，复制里面的全部内容，打开github的setting然后类似如下操作：</p>
+<p><img src="/images/2019/03/07/aeb6a8c0-4092-11e9-9621-77018395f2ce.png" alt="image.png"><br>title可以随便填写。</p>
+<p>添加这个ssh key的意义在于如果是在别的电脑上想要down你项目的内容是会有重新验证的。</p>
+<p>6.配置博客的信息，打开 <strong>_config.yml</strong> 文件，修改参数信息，里面有很多内容，可以根据自己的需要进行配置，以后有机会再来慢慢研究。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">特别提示：特别提醒，在每个参数的：后都要加一个空格</span><br></pre></td></tr></table></figure></p>
+<p>我主要配置了以下几项：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">title: 【临江仙（BrokenO)】</span><br><span class="line">subtitle: Stay hungry, Stay foolish</span><br><span class="line">description: Talking is cheap,show me your code </span><br><span class="line">keywords:</span><br><span class="line">author: 【临江仙（BrokenO)】</span><br><span class="line">language: zh-CN #zh-Hans（next主题用到的）</span><br><span class="line">timezone: Asia/Shanghai</span><br><span class="line">.</span><br><span class="line">.</span><br><span class="line">.</span><br><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: https://github.com/BrokenO/BrokenO.github.io.git(这个要配置成你自己的)</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
+<p>7.发表文章</p>
+<p>命令行： hexo new “崔斯特测试文章”  （这个是新建一篇博客）</p>
+<p>找到该文章，打开，使用Markdown语法，随便编辑几句保存</p>
+<p>然后切换到博客的根目录执行以下命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">F:\test\blog</span><br><span class="line">$ hexo clean //先清空本地缓存</span><br><span class="line">INFO  Deleted database.</span><br><span class="line">INFO  Deleted public folder.</span><br><span class="line"></span><br><span class="line">F:\test\blog </span><br><span class="line">$ hexo generate //生成静态文件</span><br><span class="line">INFO  Start processing</span><br><span class="line">INFO  Files loaded in 1.48 s</span><br><span class="line">#省略</span><br><span class="line">INFO  29 files generated in 4.27 s</span><br><span class="line"></span><br><span class="line">F:\test\blog</span><br><span class="line">$ hexo server //启动本地浏览服务器</span><br><span class="line">INFO  Start processing</span><br><span class="line">INFO  Hexo is running at http://localhost:4000/. Press Ctrl+C to stop.</span><br></pre></td></tr></table></figure></p>
+<p>此时博客已经通过<a href="http://localhost:4000/进行预览了" target="_blank" rel="noopener">http://localhost:4000/进行预览了</a></p>
+<p>8.发布到网上</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">F:\test\blog</span><br><span class="line">$ hexo deploy //发布到网上</span><br><span class="line">INFO  Deploying: git</span><br><span class="line">INFO  Clearing .deploy_git folder...</span><br><span class="line">INFO  Copying files from public folder...</span><br><span class="line">#省略</span><br></pre></td></tr></table></figure>
+<h4 id="下面来说一下数据迁移的方式"><a href="#下面来说一下数据迁移的方式" class="headerlink" title="下面来说一下数据迁移的方式"></a>下面来说一下数据迁移的方式</h4><p>具体的迁移方式详见：<a href="https://blog.csdn.net/White_Idiot/article/details/80685990" target="_blank" rel="noopener">创建Git分支将Hexo博客迁移到其它电脑</a></p>
+<h4 id="最后来说说git提交的三部曲"><a href="#最后来说说git提交的三部曲" class="headerlink" title="最后来说说git提交的三部曲"></a>最后来说说git提交的三部曲</h4><ol>
+<li>本地发生改变之后，利用 <strong><code>git status</code></strong> 查看当前的改变情况</li>
+<li>利用 <strong><code>git add .</code></strong> 将当前的改变添加到缓存区</li>
+<li>指令 <strong><code>git commit -m &quot;注释&quot;</code></strong> 提交文件</li>
+<li><strong><code>git push origin xxxx(分支名)</code></strong> 更新到分支</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+    <div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+  
+    </div>
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/blog/" rel="tag"><i class="fa fa-tag"></i> blog</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/07/http/" rel="prev" title="http的思维逻辑">
+                http的思维逻辑 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="（BrokenO)">
+          <p class="site-author-name" itemprop="name">（BrokenO)</p>
+           
+              <p class="site-description motion-element" itemprop="description">stay hungry,stay foolish</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#下面来说一下数据迁移的方式"><span class="nav-number">1.</span> <span class="nav-text">下面来说一下数据迁移的方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#最后来说说git提交的三部曲"><span class="nav-number">2.</span> <span class="nav-text">最后来说说git提交的三部曲</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <span class="footer__copyright">
+<div><span id="span_dt_dt"> </span>
+<script language="javascript">
+function show_date_time(){
+window.setTimeout("show_date_time()", 1000);
+BirthDay=new Date("9/9/2018 00:00:00");//这个日期是可以修改的
+today=new Date();
+timeold=(today.getTime()-BirthDay.getTime());//其实仅仅改了这里
+sectimeold=timeold/1000
+secondsold=Math.floor(sectimeold);
+msPerDay=24*60*60*1000
+e_daysold=timeold/msPerDay
+daysold=Math.floor(e_daysold);
+e_hrsold=(e_daysold-daysold)*24;
+hrsold=Math.floor(e_hrsold);
+e_minsold=(e_hrsold-hrsold)*60;
+minsold=Math.floor((e_hrsold-hrsold)*60);
+seconds=Math.floor((e_minsold-minsold)*60);
+span_dt_dt.innerHTML="博客已建立运行"+daysold+"天"+hrsold+"小时"+minsold+"分"+seconds+"秒 🐼 ";
+}
+show_date_time();
+</script></div>
+</span>
+<div class="copyright">
+  
+  &copy;  2018 - 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">（BrokenO)</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Gemini
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/clicklove.js"></script>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

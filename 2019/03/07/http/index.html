@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="刘鹏(BrokenO)" type="application/atom+xml">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="本文的主要意义在于通过逻辑的分析与概括，弄清楚以下几个问题: http 是什么 http 的作用是什么 http 的主要结构是什么 tcp 的工作机制与原理 http在Android中的具体实现  首先我们来聊聊http是什么？学过计算机的人都知道，http是基于C/S架构的 应用层 网络通信协议">
+<meta property="og:type" content="article">
+<meta property="og:title" content="http的思维逻辑">
+<meta property="og:url" content="http://yoursite.com/2019/03/07/http/index.html">
+<meta property="og:site_name" content="刘鹏(BrokenO)">
+<meta property="og:description" content="本文的主要意义在于通过逻辑的分析与概括，弄清楚以下几个问题: http 是什么 http 的作用是什么 http 的主要结构是什么 tcp 的工作机制与原理 http在Android中的具体实现  首先我们来聊聊http是什么？学过计算机的人都知道，http是基于C/S架构的 应用层 网络通信协议">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/2019/03/08/1ff41a20-4149-11e9-a650-ffecf938c9ad.png">
+<meta property="og:updated_time" content="2019-10-23T03:07:30.609Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="http的思维逻辑">
+<meta name="twitter:description" content="本文的主要意义在于通过逻辑的分析与概括，弄清楚以下几个问题: http 是什么 http 的作用是什么 http 的主要结构是什么 tcp 的工作机制与原理 http在Android中的具体实现  首先我们来聊聊http是什么？学过计算机的人都知道，http是基于C/S架构的 应用层 网络通信协议">
+<meta name="twitter:image" content="http://yoursite.com/images/2019/03/08/1ff41a20-4149-11e9-a650-ffecf938c9ad.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/03/07/http/">
+
+
+
+
+
+  <title>http的思维逻辑 | 刘鹏(BrokenO)</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+    <a href="https://your-url" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewbox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">刘鹏(BrokenO)</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Stay hungry, Stay foolish</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>
+            
+            站点地图
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/07/http/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="（BrokenO)">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="刘鹏(BrokenO)">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">http的思维逻辑</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-07T21:36:57+08:00">
+                2019-03-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="本文的主要意义在于通过逻辑的分析与概括，弄清楚以下几个问题"><a href="#本文的主要意义在于通过逻辑的分析与概括，弄清楚以下几个问题" class="headerlink" title="本文的主要意义在于通过逻辑的分析与概括，弄清楚以下几个问题:"></a>本文的主要意义在于通过逻辑的分析与概括，弄清楚以下几个问题:</h3><ol>
+<li>http 是什么</li>
+<li>http 的作用是什么</li>
+<li>http 的主要结构是什么</li>
+<li>tcp 的工作机制与原理</li>
+<li>http在Android中的具体实现</li>
+</ol>
+<h3 id="首先我们来聊聊http是什么？"><a href="#首先我们来聊聊http是什么？" class="headerlink" title="首先我们来聊聊http是什么？"></a>首先我们来聊聊http是什么？</h3><h4 id="学过计算机的人都知道，http是基于C-S架构的-应用层-网络通信协议"><a href="#学过计算机的人都知道，http是基于C-S架构的-应用层-网络通信协议" class="headerlink" title="学过计算机的人都知道，http是基于C/S架构的 应用层 网络通信协议"></a>学过计算机的人都知道，http是基于C/S架构的 应用层 网络通信协议</h4><a id="more"></a>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">这句话中有很多隐含的信息：</span><br><span class="line"></span><br><span class="line">	第一个，既然是 通信协议 ，那么就肯定有协议规范。</span><br><span class="line"></span><br><span class="line">	第二个，既然是基于C/S架构，那么就必然有请求端与服务端</span><br><span class="line"></span><br><span class="line">	第三个，既然是高层应用层框架，那么肯定就会有底层的支持，**http底层依赖可靠传输的TCP协议**</span><br><span class="line"></span><br><span class="line">	第四个，http是可靠的协议</span><br></pre></td></tr></table></figure>
+<p><strong>来个总结：</strong> http定义了通信双方的通信规范报文格式，即 <strong>请求格式</strong> 与  <strong>响应格式</strong>，基于C/S架构使得通信结构相对稳定，<strong>底层的实现依赖于TCP协议</strong></p>
+<p>所以http是 <strong>一个稳定可靠的应用层协议</strong></p>
+<h4 id="来看看http协议的传输报文格式"><a href="#来看看http协议的传输报文格式" class="headerlink" title="来看看http协议的传输报文格式"></a>来看看http协议的传输报文格式</h4><p><strong>请求报文：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">起始行：  请求方法  url  协议及版本  		例如：GET  /v.gif  http/<span class="number">1.0</span></span><br><span class="line"></span><br><span class="line">首部：	 host / key : value 的形式保存		例如：content-length ： <span class="number">15000</span> / content-type ： image/gif等等</span><br><span class="line"></span><br><span class="line">请求体：  body（有些方法请求是不能由body的 如get/head）</span><br></pre></td></tr></table></figure>
+<p><strong>响应报文：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">起始行：  协议版本 状态码  当前状态信息  		例如：HTTP/<span class="number">1.0</span>  <span class="number">200</span>  OK</span><br><span class="line"></span><br><span class="line">首部：	 key : value 的形式保存			例如：content-length ： <span class="number">15000</span> / content-type ： image/gif等等</span><br><span class="line"></span><br><span class="line">响应体：  body（包含请求返回的主体内容）</span><br></pre></td></tr></table></figure>
+<p><strong>请求方法</strong>主要是有以下几个：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>.GET ：http定义的安全方法，使用该方法不会对服务器上产生什么影响，大部分用于读取服务器数据   没有body</span><br><span class="line"></span><br><span class="line"><span class="number">2</span>.POST : 主要用于提交表单数据到服务器，服务器要对此作出反应（需要严格验证）有body</span><br><span class="line"></span><br><span class="line"><span class="number">3</span>.HEAD : http定义的安全方法，与GET方法有点类似，但这种请求的响应只会返回首部 可用于对资源进行检查  没有body</span><br><span class="line"></span><br><span class="line"><span class="number">4</span>.DELETE : 请求服务器删除指定的资源（需要严格验证） 有body</span><br><span class="line"></span><br><span class="line"><span class="number">5</span>.PUT : 向服务器写入资源（需要严格验证）  有body</span><br></pre></td></tr></table></figure>
+<p><strong>GET与PUT方法是幂等的，也就是说你PUT 一次与PUT十次结果是一样的并不会有所区别</strong></p>
+<p><strong>响应状态码</strong>主要有以下一些：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.100</span>~<span class="number">199</span>：说明收到请求的初始部分，请客户端继续 《信息类型状态码》</span><br><span class="line"></span><br><span class="line"><span class="number">2.200</span>~<span class="number">299</span> : <span class="number">200</span> OK 请求成功  <span class="number">201</span> Create 用于创建服务器对象成功 等等  《成功类型状态码》</span><br><span class="line"></span><br><span class="line"><span class="number">3.300</span>~<span class="number">399</span> : 表示请求的资源已经改变，需要去新的地址获取 《重定向状态码》</span><br><span class="line"></span><br><span class="line"><span class="number">4.400</span>~<span class="number">499</span> : <span class="number">401</span> 未授权  <span class="number">404</span> 找不到资源 等等《客户端错误状态码》</span><br><span class="line"></span><br><span class="line"><span class="number">5.500</span>~<span class="number">599</span> : <span class="number">500</span>  <span class="number">502</span> Bad Gateway《服务端错误状态码》</span><br></pre></td></tr></table></figure>
+<p><code>一个http请求主要包括协议 URL 以及端口，http默认的端口是80，其中URL对应机器的IP地址，端口则对应机器上的应用程序</code></p>
+<h3 id="http底层用的是TCP，那么TCP又是什么？"><a href="#http底层用的是TCP，那么TCP又是什么？" class="headerlink" title="http底层用的是TCP，那么TCP又是什么？"></a>http底层用的是TCP，那么TCP又是什么？</h3><ol>
+<li><p>TCP是一个传输层协议，为<strong>http提供了一条可靠的比特传输管道</strong>，从tcp一端写入的字节会从另一端以原有的顺序正确的传送出来</p>
+</li>
+<li><p>TCP流是分段传输的，由网络层的IP分组传输。TCP收到数据流之后会将其砍成被称作段的一小块然后加上自己的首部（端口号）往下传递给IP层</p>
+</li>
+<li><p>TCP在接收到一个包之后，会对当前包的顺序进行确认，如果后面再有相同的包传过来会直接丢弃掉。</p>
+</li>
+<li><p>由于是分段传输的，在网络不稳定的情况下，TCP需要对接收到的包进行 <strong>排序</strong> 与 <strong>去重</strong> 以及进行 <strong>丢包重传</strong>。    </p>
+</li>
+</ol>
+<h4 id="我们来看看TCP连接的真实过程"><a href="#我们来看看TCP连接的真实过程" class="headerlink" title="我们来看看TCP连接的真实过程"></a>我们来看看TCP连接的真实过程</h4><p>1.客户端要跟服务端建立连接，那么客户端会向服务端发送一个小的IP分组，并再这个分组中附加上一个<strong>SYNC</strong>的标志信息，表示想要连接服务器</p>
+<p>2.如果服务端接受了连接，就会会连接参数进行计算，也生成一个SYNC的标志，并且对客户端的SYNC进行回应，发送一个ACK = SYNC + 1 的值，表示自己已经接受了连接</p>
+<p>3.客户端接收到之后，再往服务器发送一个分组，且附加一个ACK = SYNC + 1的标志位，服务端接收到之后连接建立。</p>
+<h4 id="为什么连接需要三次握手？"><a href="#为什么连接需要三次握手？" class="headerlink" title="为什么连接需要三次握手？"></a>为什么连接需要三次握手？</h4><p>三次握手的原则设计是<strong>防止旧复用链接的初始化</strong>导致问题，为了解决此问题，我们设计了<strong>reset</strong>这个特别的控制信号来处理。如果接收中的 TCP 在一个未同步状态如 SYN-SENT, SYN-RECEIVED，它会返回 reset 给对方。如果 TCP 是同步状态中如(ESTABLISHED, FIN-WAIT-1, FIN-WAIT-2, CLOSE-WAIT, CLOSING, LAST-ACK, TIME-WAIT)，他会终止此连接并通知用户。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">TCP A                                                TCP B</span><br><span class="line">​</span><br><span class="line">  <span class="number">1</span>.  CLOSED                                               LISTEN</span><br><span class="line">​</span><br><span class="line">  <span class="number">2</span>.  SYN-SENT    --&gt; &lt;SEQ=<span class="number">100</span>&gt;&lt;CTL=SYN&gt;               ...</span><br><span class="line">​</span><br><span class="line">  <span class="number">3</span>.  (duplicate) ... &lt;SEQ=<span class="number">90</span>&gt;&lt;CTL=SYN&gt;               --&gt; SYN-RECEIVED</span><br><span class="line">​</span><br><span class="line">  <span class="number">4</span>.  SYN-SENT    &lt;-- &lt;SEQ=<span class="number">300</span>&gt;&lt;ACK=<span class="number">91</span>&gt;&lt;CTL=SYN,ACK&gt;  &lt;-- SYN-RECEIVED</span><br><span class="line">​</span><br><span class="line">  <span class="number">5</span>.  SYN-SENT    --&gt; &lt;SEQ=<span class="number">91</span>&gt;&lt;CTL=RST&gt;               --&gt; LISTEN</span><br><span class="line">  </span><br><span class="line">​</span><br><span class="line">  <span class="number">6</span>.              ... &lt;SEQ=<span class="number">100</span>&gt;&lt;CTL=SYN&gt;               --&gt; SYN-RECEIVED</span><br><span class="line">​</span><br><span class="line">  <span class="number">7</span>.  SYN-SENT    &lt;-- &lt;SEQ=<span class="number">400</span>&gt;&lt;ACK=<span class="number">101</span>&gt;&lt;CTL=SYN,ACK&gt;  &lt;-- SYN-RECEIVED</span><br><span class="line">​</span><br><span class="line">  <span class="number">8</span>.  ESTABLISHED --&gt; &lt;SEQ=<span class="number">101</span>&gt;&lt;ACK=<span class="number">401</span>&gt;&lt;CTL=ACK&gt;      --&gt; ESTABLISHED</span><br><span class="line">​</span><br><span class="line">                    Recovery from Old Duplicate SYN</span><br></pre></td></tr></table></figure>
+<p>这是 复用连接时，旧在途包发往新连接中的例子。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">3</span>中，一个旧的重复的 SYN到达 B。</span><br><span class="line"></span><br><span class="line"><span class="number">4</span>中， B分别不出是否旧的，照样子正常回包。</span><br><span class="line"></span><br><span class="line"><span class="number">5</span>中，A检测到 B 返回的ACK不正确，所以返回 RST(reset)</span><br><span class="line"></span><br><span class="line"><span class="number">6</span>中，B接收到  RST(reset)信号，于是变成 LISTEN 状态。</span><br><span class="line"></span><br><span class="line"><span class="number">7</span>中，新连接正常的 SYN终于到达了，三次握手正常进行。</span><br></pre></td></tr></table></figure>
+<p><strong>对上面来个总结：</strong> 首先，如果A要跟B通信，A先向B发送一个序列号 <code>seq</code> 以及 <code>SYN</code> 标志，如果在B收到A的这个<code>seq</code> 之前有别的连接请求到达，比如说B收到了一个旧的的SYN信号以及 <code>seq</code> 序列号,那么此时B是不知道这个请求是A新发出的还是以前的，所以B会正常的往A回复响应，即发一个SYNC 标志与ACK = seq + 1，当A收到这个ACK时发现这个回复与自己当前的Seq不匹配，那么此时A会发送一个RST消息使B进入一个listen状态，只监听A当前发送给B的分组，当A刚刚发送的seq = 100 的分组到达时，B才向A返回确认，当A收到确认之后再往B发送一个确认，当B再次收到A的确认时，双方连接建立。如图<br><img src="/images/2019/03/08/1ff41a20-4149-11e9-a650-ffecf938c9ad.png" alt="image.png"></p>
+<h4 id="下面来聊一聊http请求慢的问题"><a href="#下面来聊一聊http请求慢的问题" class="headerlink" title="下面来聊一聊http请求慢的问题"></a>下面来聊一聊http请求慢的问题</h4><p>请求慢的分析主要有以下几个方面：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">当一个http请求发出之后会经历以下几个阶段：</span><br><span class="line"></span><br><span class="line"><span class="number">1</span>.如果不是直接通过IP连接，那么会有DNS寻址过程，这个过程相对耗时</span><br><span class="line"></span><br><span class="line"><span class="number">2</span>.TCP三次握手连接建立</span><br><span class="line"></span><br><span class="line"><span class="number">3</span>.服务端解析请求，返回结果数据（服务端事务处理）</span><br><span class="line"></span><br><span class="line"><span class="number">4</span>.客户端解析返回结果</span><br></pre></td></tr></table></figure>
+<p>那么正对上面的过程会有如下解决方案：</p>
+<p>1.如果在服务器IP地址已知的情况下，使用IP访问，去除DNS寻址的过程</p>
+<p>2.一般来说服务端的事务处理都比较块，真正耗时的地方在于握手建立连接，此时可以使用连接池复用连接</p>
+<p>3.请求体优化，如果请求体过大，那么这个在传输过程中也时比较耗时的</p>
+<p>4.并行的服务端事务处理</p>
+<h3 id="http在Android中的具体实现"><a href="#http在Android中的具体实现" class="headerlink" title="http在Android中的具体实现"></a>http在Android中的具体实现</h3><p>在Android有几个鼎鼎大名的网络请求 框架，一个是 <strong>Volly</strong>，一个是 <strong>Okhttp</strong></p>
+<p>个人对Okhttp相对来说比较熟，在接下来的文章中会有对Okhttp的具体分析</p>
+<p>下面的一篇我们来说说https : <a href="https://brokeno.github.io/2019/03/08/https/" target="_blank" rel="noopener">https 加密解密以及验证与签名</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+    <div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+  
+    </div>
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/07/github-hexo/" rel="next" title="利用github + Hexo搭建自己个人博客的踩坑过程">
+                <i class="fa fa-chevron-left"></i> 利用github + Hexo搭建自己个人博客的踩坑过程
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/08/https/" rel="prev" title="https 加密解密以及验证与签名">
+                https 加密解密以及验证与签名 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="（BrokenO)">
+          <p class="site-author-name" itemprop="name">（BrokenO)</p>
+           
+              <p class="site-description motion-element" itemprop="description">stay hungry,stay foolish</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#本文的主要意义在于通过逻辑的分析与概括，弄清楚以下几个问题"><span class="nav-number">1.</span> <span class="nav-text">本文的主要意义在于通过逻辑的分析与概括，弄清楚以下几个问题:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#首先我们来聊聊http是什么？"><span class="nav-number">2.</span> <span class="nav-text">首先我们来聊聊http是什么？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#学过计算机的人都知道，http是基于C-S架构的-应用层-网络通信协议"><span class="nav-number">2.1.</span> <span class="nav-text">学过计算机的人都知道，http是基于C/S架构的 应用层 网络通信协议</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#来看看http协议的传输报文格式"><span class="nav-number">2.2.</span> <span class="nav-text">来看看http协议的传输报文格式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#http底层用的是TCP，那么TCP又是什么？"><span class="nav-number">3.</span> <span class="nav-text">http底层用的是TCP，那么TCP又是什么？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#我们来看看TCP连接的真实过程"><span class="nav-number">3.1.</span> <span class="nav-text">我们来看看TCP连接的真实过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#为什么连接需要三次握手？"><span class="nav-number">3.2.</span> <span class="nav-text">为什么连接需要三次握手？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#下面来聊一聊http请求慢的问题"><span class="nav-number">3.3.</span> <span class="nav-text">下面来聊一聊http请求慢的问题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#http在Android中的具体实现"><span class="nav-number">4.</span> <span class="nav-text">http在Android中的具体实现</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <span class="footer__copyright">
+<div><span id="span_dt_dt"> </span>
+<script language="javascript">
+function show_date_time(){
+window.setTimeout("show_date_time()", 1000);
+BirthDay=new Date("9/9/2018 00:00:00");//这个日期是可以修改的
+today=new Date();
+timeold=(today.getTime()-BirthDay.getTime());//其实仅仅改了这里
+sectimeold=timeold/1000
+secondsold=Math.floor(sectimeold);
+msPerDay=24*60*60*1000
+e_daysold=timeold/msPerDay
+daysold=Math.floor(e_daysold);
+e_hrsold=(e_daysold-daysold)*24;
+hrsold=Math.floor(e_hrsold);
+e_minsold=(e_hrsold-hrsold)*60;
+minsold=Math.floor((e_hrsold-hrsold)*60);
+seconds=Math.floor((e_minsold-minsold)*60);
+span_dt_dt.innerHTML="博客已建立运行"+daysold+"天"+hrsold+"小时"+minsold+"分"+seconds+"秒 🐼 ";
+}
+show_date_time();
+</script></div>
+</span>
+<div class="copyright">
+  
+  &copy;  2018 - 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">（BrokenO)</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Gemini
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/clicklove.js"></script>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
