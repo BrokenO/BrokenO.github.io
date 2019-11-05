@@ -534,53 +534,18 @@
 
       
         
-          
-            <h3 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h3><p>1.单例模式的设计意图是什么？它要解决一个什么问题？什么时候可以使用它？</p>
+          <h3 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h3><p>1.单例模式的设计意图是什么？它要解决一个什么问题？什么时候可以使用它？</p>
 <p>2.它是如何解决问题的？</p>
 <p>3.结构图是怎样的，有哪些关键代码</p>
 <p>4.能够想到这个设计模式的两个应用实例，一个生活中，一个软件中</p>
 <p>5.这个模式的优缺点是什么？在使用时要注意什么</p>
-<h3 id="单例模式的设计意图"><a href="#单例模式的设计意图" class="headerlink" title="单例模式的设计意图"></a>单例模式的设计意图</h3><p>单例模式设计的意图是 为了节约系统资源，确保当前的类在进程的生命周期中只会存在一个实例，也就是说当前类的构造方法在进程的生命周期中只会被调用一次。</p>
-<p>如果有些类占用资源太多，或者如果有多个实例会难于管理，比方说线程池，数据库连接池之类的，这些需要使用到单例模式</p>
-<h3 id="单例模式是如何解决问题的？"><a href="#单例模式是如何解决问题的？" class="headerlink" title="单例模式是如何解决问题的？"></a>单例模式是如何解决问题的？</h3><p>因为在进程中只存在唯一的一个实例，所以在任意时刻通过该类拿到的永远是同一个对象，实现了资源的复用</p>
-<h3 id="单例模式的实现与结构图"><a href="#单例模式的实现与结构图" class="headerlink" title="单例模式的实现与结构图"></a>单例模式的实现与结构图</h3><p>目前实现单例模式的方式著有要三种 ：<strong>静态内部类（推荐），枚举（一般），双重检查锁 DCL（一般）</strong></p>
-<h3 id="要实现单例要做的几件事"><a href="#要实现单例要做的几件事" class="headerlink" title="要实现单例要做的几件事"></a>要实现单例要做的几件事</h3><ol>
-<li><p>构造器必需私有化，也就是说外部不能调用到自己的构造方法</p>
-</li>
-<li><p>拥有一个全局的私有静态变量</p>
-</li>
-<li><p>提供一个访问该私有变量的静态方法</p>
-</li>
-</ol>
-<h3 id="静态内部类的实现方式"><a href="#静态内部类的实现方式" class="headerlink" title="静态内部类的实现方式"></a>静态内部类的实现方式</h3><p>静态内部类实现单例的原理是 利用 JVM 的 <strong>类加载机制实现的</strong>。类加载时会在<strong>初始化阶段</strong>为所有的静态变量赋值。</p>
-<p>其典型的代码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">SingleHodler</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span>  xxx  instance = <span class="keyword">new</span> xxx();</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> xxx&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> xxx <span class="title">getInstance</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> SingleHodler.instance;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h3 id="枚举"><a href="#枚举" class="headerlink" title="枚举"></a>枚举</h3><p>枚举没啥好说的，其实现原理与静态内部类一样</p>
-<p>但是枚举要注意一个反序列化生成对象的问题，通过序列化可以将一个对象写入到磁盘，然后要使用的时候通过反序列化可以得到一个新的对象，这就有可能使得单例模式失效。</p>
-<p>反序列化提供了一个很特别的钩子函数，类中具有一个私有的被实例化的方法 <code>readResolve</code> ,我们可以通过控制该方法控制对象的反序列化，要杜绝反序列化生成新对象可以实现如下方法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> Object <span class="title">readResolve</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> instance;<span class="comment">//返回自己创建的单例</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>这个方法是底层通过反射调用的</p>
-<h3 id="双重检查锁（double-ckeck-lock）"><a href="#双重检查锁（double-ckeck-lock）" class="headerlink" title="双重检查锁（double ckeck lock）"></a>双重检查锁（double ckeck lock）</h3><p>双重检查锁的目的是为了解决<strong>多线程下单例</strong>的问题。<strong>其使用的volatile关键字在JDK1.5以后才有，并且volatile的禁止指令重排机制会屏蔽虚拟机的一些优化操作，因此并不是单例的一种完美实现方式。</strong></p>
-<p><strong>如果static变量不添加volatile关键字是有可能导致单例失效的</strong>，其具体原因如下：</p>
-<p>一个对象的创建过程由这么几步组成，1.分配内存 2.初始化 3.将instance对象指向分配的内存空间。那么由于JVM允许在执行时进行指令优化，如果不添加volatile关键字，那么2与3的执行顺序是不确定的，有可能是1-2-3，也有可能是1-3-2.如果是1-3-2，3先执行，2未执行，如果此时切换线程B，此时instance在线程A中已经执行过3了，所以instance不为空，线程B会直接取走instance，在使用的时候就会报错，这就是DCL失效的问题</p>
-<h3 id="单例模式的优缺点"><a href="#单例模式的优缺点" class="headerlink" title="单例模式的优缺点"></a>单例模式的优缺点</h3><p>优点：</p>
-<ol>
-<li><p>提供了唯一对象的受控访问，可以严格控制用户的访问</p>
-</li>
-<li><p>由于内存中只存在一个对象，节约了系统资源</p>
-</li>
-</ol>
-<p>缺点：</p>
-<ol>
-<li><p>由于单例模式中没有抽象层，所以扩展会很困难</p>
-</li>
-<li><p>单例类的职责过重，在一定程度上违反了单一职责原则</p>
-</li>
-<li><p>在很多面向对象语言中都提供了垃圾自动回收机制，如果实例共享对象长时间没有被引用，会被收集器回收，再次使用时会重新创建对象，此时有可能会导致共享对象的状态丢失</p>
-</li>
-</ol>
-<p>目前推荐使用的是静态内部类与枚举</p>
-<p><strong>为了防止反射与反序列化重新创建对象由如下解决方式：如果是反射，可以在构造函数中判断当前实例是否存在，如果已经存在则抛出异常，反序列化前面已经讲过了不再重复。</strong></p>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/03/10/singleton-pattern/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -862,8 +827,7 @@
 
       
         
-          
-            <p>OkHttpClient 应该被设计为一个单例，以便复用连接池与线程池，避免造成资源不必要的资源浪费</p>
+          <p>OkHttpClient 应该被设计为一个单例，以便复用连接池与线程池，避免造成资源不必要的资源浪费</p>
 <h3 id="okhttp-的连接池设计"><a href="#okhttp-的连接池设计" class="headerlink" title="okhttp 的连接池设计"></a>okhttp 的连接池设计</h3><p>为了避免在请求同一个连接时在重新建立连接上产生的时延，Okhttp设计了socket连接 复用机制。</p>
 <ol>
 <li><p>每次有新的请求到来时，会先去连接池中查找当前请求的连接是否已经存在。</p>
@@ -873,31 +837,13 @@
 <li><p>如果不存在，则重新创建一个连接，然后将连接放进连接池,在放进连接池时会通过<code>线程池</code>对连接池进行清理与维护，用来释放已经<code>空闲超时</code>的连接.</p>
 </li>
 </ol>
-<h4 id="okhttp-的连接池的清理逻辑"><a href="#okhttp-的连接池的清理逻辑" class="headerlink" title="okhttp 的连接池的清理逻辑"></a>okhttp 的连接池的清理逻辑</h4><p> 直接上源码</p>
-<ol>
-<li><p>如果连接池中不存在当前请求的连接，则先判断当前连接池是否在执行清理操作，如果没有先执行连接池清理操作。然后将新的请求添加到连接池中</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">put</span><span class="params">(RealConnection connection)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">assert</span> (Thread.holdsLock(<span class="keyword">this</span>));</span><br><span class="line">    <span class="keyword">if</span> (!cleanupRunning) &#123; <span class="comment">//如果不是是在清理中，则执行清理操作</span></span><br><span class="line">      cleanupRunning = <span class="keyword">true</span>;</span><br><span class="line">      executor.execute(cleanupRunnable); <span class="comment">//有线程池管理，执行清理操作</span></span><br><span class="line">    &#125;</span><br><span class="line">    connections.add(connection);<span class="comment">//添加连接到线程池</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>执行清理操作，这里要注意两点：如果清理返回的结果为 -1，那么表示连接池中没有连接，那么清理线程也就没有一直循环下去的必要了。如果在清理的过程中发现有空闲连接，但是空闲连接没有达到超时时间，那么当前执行清理的线程会休眠（时间为达到超时的时间），如果在此休眠期间没有重新调用该连接，那么超时时间之后会执行清理操作。</p>
-</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> Runnable cleanupRunnable = <span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">    <span class="meta">@Override</span> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">        <span class="keyword">long</span> waitNanos = cleanup(System.nanoTime());<span class="comment">//执行清理操作 返回需要等待的时间</span></span><br><span class="line">        <span class="keyword">if</span> (waitNanos == -<span class="number">1</span>) <span class="keyword">return</span>; <span class="comment">//如果返回-1表示连接池为空跳出循环</span></span><br><span class="line">        <span class="keyword">if</span> (waitNanos &gt; <span class="number">0</span>) &#123; <span class="comment">//如果等待超时的时间大于0，那么当前线程会清理休眠等待时间</span></span><br><span class="line">          <span class="keyword">long</span> waitMillis = waitNanos / <span class="number">1000000L</span>;</span><br><span class="line">          waitNanos -= (waitMillis * <span class="number">1000000L</span>);</span><br><span class="line">          <span class="keyword">synchronized</span> (ConnectionPool.<span class="keyword">this</span>) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">              ConnectionPool.<span class="keyword">this</span>.wait(waitMillis, (<span class="keyword">int</span>) waitNanos);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException ignored) &#123;</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br></pre></td></tr></table></figure>
-<p>3.清理操作主要由cleanup执行，clean的时候分以下几个步骤：</p>
-<pre><code>1.首先先找到连接池中空闲时间最长的连接，以及空闲连接数
-
-2.其次判断当前空闲连接数如果大于默认的连接数，则直接移除当前的空闲连接，关闭连接sokect
-
-3.如果当前空闲时间大于默认的空闲时间，也直接移除当前的空闲连接，关闭连接sokect
-
-4.如果当前连接池中存在空闲连接，那么直接返回超时时间差，返回之后，当前线程会休眠当前这个时间差，然后继续下一次清理
-
-5.如果没有空闲线程，直接返回默认的超时时间，当前清理线程会休眠
-
-6.如果没有连接，则当前清理线程会退出。
-</code></pre><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">long</span> <span class="title">cleanup</span><span class="params">(<span class="keyword">long</span> now)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> inUseConnectionCount = <span class="number">0</span>; <span class="comment">//正在使用中连接的个数</span></span><br><span class="line">    <span class="keyword">int</span> idleConnectionCount = <span class="number">0</span>; <span class="comment">//空闲连接的个数</span></span><br><span class="line">    RealConnection longestIdleConnection = <span class="keyword">null</span>; <span class="comment">//空闲时间最长的连接</span></span><br><span class="line">    <span class="keyword">long</span> longestIdleDurationNs = Long.MIN_VALUE; <span class="comment">//最长的空闲时间</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// Find either a connection to evict, or the time that the next eviction is due.</span></span><br><span class="line">    <span class="keyword">synchronized</span> (<span class="keyword">this</span>) &#123;</span><br><span class="line">      <span class="keyword">for</span> (Iterator&lt;RealConnection&gt; i = connections.iterator(); i.hasNext(); ) &#123;</span><br><span class="line">        RealConnection connection = i.next();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// If the connection is in use, keep searching.</span></span><br><span class="line">        <span class="keyword">if</span> (pruneAndGetAllocationCount(connection, now) &gt; <span class="number">0</span>) &#123;<span class="comment">//如果当前线程在使用</span></span><br><span class="line">          inUseConnectionCount++;</span><br><span class="line">          <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        idleConnectionCount++; <span class="comment">//走到这里表示已经发现了空闲连接</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// If the connection is ready to be evicted, we're done.</span></span><br><span class="line">        <span class="keyword">long</span> idleDurationNs = now - connection.idleAtNanos;</span><br><span class="line">        <span class="keyword">if</span> (idleDurationNs &gt; longestIdleDurationNs) &#123;</span><br><span class="line">          longestIdleDurationNs = idleDurationNs;</span><br><span class="line">          longestIdleConnection = connection;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">	<span class="comment">//循环到此处会得到空闲时间最长的连接</span></span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span> (longestIdleDurationNs &gt;= <span class="keyword">this</span>.keepAliveDurationNs <span class="comment">//如果空闲时间大于默认的时间 5分钟</span></span><br><span class="line">          || idleConnectionCount &gt; <span class="keyword">this</span>.maxIdleConnections) &#123;<span class="comment">//空闲连接数大于最大空闲数 5个</span></span><br><span class="line">        <span class="comment">// We've found a connection to evict. Remove it from the list, then close it below (outside</span></span><br><span class="line">        <span class="comment">// of the synchronized block).</span></span><br><span class="line">        connections.remove(longestIdleConnection);<span class="comment">//直接将该连接移出连接池</span></span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (idleConnectionCount &gt; <span class="number">0</span>) &#123;<span class="comment">//如果空闲的个数大于0</span></span><br><span class="line">        <span class="comment">// A connection will be ready to evict soon.</span></span><br><span class="line">        <span class="keyword">return</span> keepAliveDurationNs - longestIdleDurationNs; <span class="comment">//返回下次清理还需等待的时间</span></span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (inUseConnectionCount &gt; <span class="number">0</span>) &#123; <span class="comment">//如果使用的连接数大于0 直接返回默认的超时时间</span></span><br><span class="line">        <span class="comment">// All connections are in use. It'll be at least the keep alive duration 'til we run again.</span></span><br><span class="line">        <span class="keyword">return</span> keepAliveDurationNs;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;<span class="comment">//如果没有连接，清理线程将退出执行</span></span><br><span class="line">        <span class="comment">// No connections, idle or in use.</span></span><br><span class="line">        cleanupRunning = <span class="keyword">false</span>;</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    closeQuietly(longestIdleConnection.socket()); <span class="comment">//关闭当前的连接socket</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// Cleanup again immediately.</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-<p>来一张连接池的流程图：<strong>（为什么是5，默认超时时间是 5分钟，空闲链接为5，可以自定义）</strong><br><img src="/images/2019/03/09/749ee470-4283-11e9-a1b6-4f48496f0a49.png" alt="image.png"><br><img src="/images/2019/03/09/7c841250-4283-11e9-a1b6-4f48496f0a49.png" alt="image.png"></p>
-<h3 id="okhttp-的Cache设计"><a href="#okhttp-的Cache设计" class="headerlink" title="okhttp 的Cache设计"></a>okhttp 的Cache设计</h3><p id="div-blue"><br>数据结构：private final Deque<realconnection> connections = new ArrayDeque&lt;&gt;();<br></realconnection></p><br><p id="div-blue">完美的邂逅，这个纯属扯淡</p>
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/03/08/okhttp/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>

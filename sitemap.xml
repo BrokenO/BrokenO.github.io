@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2019/03/08/okhttp/</loc>
+    
+    <lastmod>2019-11-05T04:26:44.827Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/03/10/singleton-pattern/</loc>
+    
+    <lastmod>2019-11-05T04:26:24.526Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2019/10/26/%E5%BA%8F%E5%88%97%E5%8C%96/</loc>
     
     <lastmod>2019-11-05T04:00:36.860Z</lastmod>
@@ -30,23 +44,9 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2019/03/08/okhttp/</loc>
-    
-    <lastmod>2019-10-23T03:11:57.944Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://yoursite.com/tags/index.html</loc>
     
     <lastmod>2019-10-23T03:07:30.623Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2019/03/10/singleton-pattern/</loc>
-    
-    <lastmod>2019-10-23T03:07:30.610Z</lastmod>
     
   </url>
   
