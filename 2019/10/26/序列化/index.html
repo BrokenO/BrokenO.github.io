@@ -119,7 +119,7 @@
 <meta property="og:description" content="定义将对象编码成一个字节流称之为 序列化 从字节流中重新构建对象称之为 反序列化 有一种更直接的说法，序列化其实就是给写入字节流中的每一个对象 进行编号，而反序列化就是根据对象的编号找到相应对象的引用 输入输出流输入与输出是相对的，一般从内存的角度来看： 1.从文件写入内存，为输入流（InputStream）,是将二进制流转换为对象的运行时数据结构,对应的是 反序列化 的过程，输入流对应的是rea">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/images/2019/10/26/6d598780-f7c6-11e9-b976-4793a243304d.png">
-<meta property="og:updated_time" content="2019-11-05T03:56:39.617Z">
+<meta property="og:updated_time" content="2019-11-05T04:00:36.860Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="序列化">
 <meta name="twitter:description" content="定义将对象编码成一个字节流称之为 序列化 从字节流中重新构建对象称之为 反序列化 有一种更直接的说法，序列化其实就是给写入字节流中的每一个对象 进行编号，而反序列化就是根据对象的编号找到相应对象的引用 输入输出流输入与输出是相对的，一般从内存的角度来看： 1.从文件写入内存，为输入流（InputStream）,是将二进制流转换为对象的运行时数据结构,对应的是 反序列化 的过程，输入流对应的是rea">
@@ -406,7 +406,7 @@
 <h4 id="输入输出流"><a href="#输入输出流" class="headerlink" title="输入输出流"></a>输入输出流</h4><p><img src="/images/2019/10/26/6d598780-f7c6-11e9-b976-4793a243304d.png" alt="image.png"><br>输入与输出是相对的，一般从内存的角度来看：</p>
 <p>1.从文件写入内存，为<strong>输入流（InputStream）</strong>,是将二进制流转换为对象的运行时数据结构,对应的是 <strong>反序列化</strong> 的过程，输入流对应的是<strong>read</strong>方法</p>
 <p>2.从内存写入文件，为<strong>输出流（OutputStream）</strong>,是将对象转换为二进制流，该过程对应的是 <strong>序列化</strong> 的过程，输出流对应的是<strong>write</strong>方法</p>
-<p>其实输入输出流与序列化与反序列化没有直接联系，这里联系在一起是为了方便记忆</p>
+<p>其实输入输出流与序列化与反序列化没有直接联系，这里联系在一起是为了方便记忆<br><a id="more"></a></p>
 <h3 id="序列化的作用"><a href="#序列化的作用" class="headerlink" title="序列化的作用"></a><strong>序列化的作用</strong></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.持久化 序列化很大一部分原因是为了进行持久化操作</span><br><span class="line"></span><br><span class="line">2.传输 例如跨进程传输，远程传输（RMI）</span><br></pre></td></tr></table></figure>
 <h3 id="序列化的实现"><a href="#序列化的实现" class="headerlink" title="序列化的实现"></a>序列化的实现</h3><p>对象需要实现序列化，必须要实现 <strong>Serializable</strong> 接口,如果该对象的成员变量是引用类型则该成员变量，也需要实现 <strong>Serializable</strong> 接口，否则序列化会失败</p>
 <p>下面是标准的序列化与反序列化的代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> (ByteArrayOutputStream bos = <span class="keyword">new</span> ByteArrayOutputStream();</span><br><span class="line">             ObjectOutputStream oos = <span class="keyword">new</span> ObjectOutputStream(bos)) &#123;</span><br><span class="line">            oos.writeObject(obj);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">byte</span>[] bytes = bos.toByteArray();</span><br><span class="line">            ByteArrayInputStream bis = <span class="keyword">new</span> ByteArrayInputStream(bytes);</span><br><span class="line">            ObjectInputStream ois = <span class="keyword">new</span> ObjectInputStream(bis);</span><br><span class="line">            Object o = ois.readObject();</span><br><span class="line"></span><br><span class="line">            ois.close();</span><br><span class="line">            bis.close();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException | ClassNotFoundException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure></p>
@@ -434,10 +434,9 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">**如果当前类实现了Serializable接口，为了避免在后面类的迭代过程中反序列化出错，请显示提供serialVersionUID字段**</span><br></pre></td></tr></table></figure>
 <h4 id="深克隆"><a href="#深克隆" class="headerlink" title="深克隆"></a>深克隆</h4><p>由于通过序列化与反序列化产生的是完全不同的对象，所以可以用来做对象的深克隆，但是深克隆构建对象比复制或者克隆数据域的方法要慢很多</p>
 <p>实现代码在上面</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">**如果一个对象被同时序列化两次，即便后一次对当前对象的属性作了修改，在序列化时由于当前的对象已经存在，所以存在序列化流中的只是当前对象的一个引用，反序列化出来的是同一个对象。**</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">如果一个对象被同时序列化两次，即便后一次对当前对象的属性作了修改，在序列化时由于当前的对象已经存在，所以存在序列化流中的只是当前对象的一个引用，反序列化出来的是同一个对象。</span><br></pre></td></tr></table></figure>
 <h4 id="android中的序列化方式-parelable"><a href="#android中的序列化方式-parelable" class="headerlink" title="android中的序列化方式 parelable"></a>android中的序列化方式 parelable</h4><p>1.serializable一般用于数据的持久化，使用I/O读写存储于硬盘<br>2.parcelable直接在内存中读写，速度要比serializable快很多<br>3.serializable会使用到反射，而反射是很耗性能的操作<br>4.arcelable是自己实现封送与解封，过程中不涉及反射等耗性能操作，数据也存储在Native内存中，效率比serializable要高很多</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">综上：serializable实现简单，性能消耗大，效率低，内存占用大。 parcelable实现相对复杂，但是内存占用率较低，且没有反射等耗性能操作，效率极高。在android等移动设备中应该优先使用parcelable</span><br></pre></td></tr></table></figure>
-
       
     </div>
     
