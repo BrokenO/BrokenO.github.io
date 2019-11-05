@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="刘鹏(BrokenO)" type="application/atom+xml">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="定义将对象编码成一个字节流称之为 序列化 从字节流中重新构建对象称之为 反序列化 有一种更直接的说法，序列化其实就是给写入字节流中的每一个对象 进行编号，而反序列化就是根据对象的编号找到相应对象的引用 输入输出流输入与输出是相对的，一般从内存的角度来看： 1.从文件写入内存，为输入流（InputStream）,是将二进制流转换为对象的运行时数据结构,对应的是 反序列化 的过程，输入流对应的是rea">
+<meta property="og:type" content="article">
+<meta property="og:title" content="序列化">
+<meta property="og:url" content="http://yoursite.com/2019/10/26/序列化/index.html">
+<meta property="og:site_name" content="刘鹏(BrokenO)">
+<meta property="og:description" content="定义将对象编码成一个字节流称之为 序列化 从字节流中重新构建对象称之为 反序列化 有一种更直接的说法，序列化其实就是给写入字节流中的每一个对象 进行编号，而反序列化就是根据对象的编号找到相应对象的引用 输入输出流输入与输出是相对的，一般从内存的角度来看： 1.从文件写入内存，为输入流（InputStream）,是将二进制流转换为对象的运行时数据结构,对应的是 反序列化 的过程，输入流对应的是rea">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/2019/10/26/6d598780-f7c6-11e9-b976-4793a243304d.png">
+<meta property="og:updated_time" content="2019-11-05T03:56:39.617Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="序列化">
+<meta name="twitter:description" content="定义将对象编码成一个字节流称之为 序列化 从字节流中重新构建对象称之为 反序列化 有一种更直接的说法，序列化其实就是给写入字节流中的每一个对象 进行编号，而反序列化就是根据对象的编号找到相应对象的引用 输入输出流输入与输出是相对的，一般从内存的角度来看： 1.从文件写入内存，为输入流（InputStream）,是将二进制流转换为对象的运行时数据结构,对应的是 反序列化 的过程，输入流对应的是rea">
+<meta name="twitter:image" content="http://yoursite.com/images/2019/10/26/6d598780-f7c6-11e9-b976-4793a243304d.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/10/26/序列化/">
+
+
+
+
+
+  <title>序列化 | 刘鹏(BrokenO)</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+    <a href="https://your-url" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewbox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">刘鹏(BrokenO)</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Stay hungry, Stay foolish</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>
+            
+            站点地图
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/26/序列化/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="（BrokenO)">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="刘鹏(BrokenO)">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">序列化</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-26T16:05:36+08:00">
+                2019-10-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JAVA/" itemprop="url" rel="index">
+                    <span itemprop="name">JAVA</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a><strong>定义</strong></h3><p>将对象编码成一个字节流称之为 <strong>序列化</strong></p>
+<p>从字节流中重新构建对象称之为 <strong>反序列化</strong></p>
+<p>有一种更直接的说法，序列化其实就是给写入字节流中的每一个对象 <strong>进行编号</strong>，而反序列化就是根据对象的编号找到相应对象的引用</p>
+<h4 id="输入输出流"><a href="#输入输出流" class="headerlink" title="输入输出流"></a>输入输出流</h4><p><img src="/images/2019/10/26/6d598780-f7c6-11e9-b976-4793a243304d.png" alt="image.png"><br>输入与输出是相对的，一般从内存的角度来看：</p>
+<p>1.从文件写入内存，为<strong>输入流（InputStream）</strong>,是将二进制流转换为对象的运行时数据结构,对应的是 <strong>反序列化</strong> 的过程，输入流对应的是<strong>read</strong>方法</p>
+<p>2.从内存写入文件，为<strong>输出流（OutputStream）</strong>,是将对象转换为二进制流，该过程对应的是 <strong>序列化</strong> 的过程，输出流对应的是<strong>write</strong>方法</p>
+<p>其实输入输出流与序列化与反序列化没有直接联系，这里联系在一起是为了方便记忆</p>
+<h3 id="序列化的作用"><a href="#序列化的作用" class="headerlink" title="序列化的作用"></a><strong>序列化的作用</strong></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.持久化 序列化很大一部分原因是为了进行持久化操作</span><br><span class="line"></span><br><span class="line">2.传输 例如跨进程传输，远程传输（RMI）</span><br></pre></td></tr></table></figure>
+<h3 id="序列化的实现"><a href="#序列化的实现" class="headerlink" title="序列化的实现"></a>序列化的实现</h3><p>对象需要实现序列化，必须要实现 <strong>Serializable</strong> 接口,如果该对象的成员变量是引用类型则该成员变量，也需要实现 <strong>Serializable</strong> 接口，否则序列化会失败</p>
+<p>下面是标准的序列化与反序列化的代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> (ByteArrayOutputStream bos = <span class="keyword">new</span> ByteArrayOutputStream();</span><br><span class="line">             ObjectOutputStream oos = <span class="keyword">new</span> ObjectOutputStream(bos)) &#123;</span><br><span class="line">            oos.writeObject(obj);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">byte</span>[] bytes = bos.toByteArray();</span><br><span class="line">            ByteArrayInputStream bis = <span class="keyword">new</span> ByteArrayInputStream(bytes);</span><br><span class="line">            ObjectInputStream ois = <span class="keyword">new</span> ObjectInputStream(bis);</span><br><span class="line">            Object o = ois.readObject();</span><br><span class="line"></span><br><span class="line">            ois.close();</span><br><span class="line">            bis.close();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException | ClassNotFoundException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure></p>
+<p>序列化的实现分为使用<strong>默认的序列化方式与自定义的序列化方式</strong></p>
+<h4 id="标准的序列化"><a href="#标准的序列化" class="headerlink" title="标准的序列化"></a>标准的序列化</h4><p>标准的序列化流程比较简单：</p>
+<p>1.写入对象的类型信息</p>
+<p>2.写入对象成员变量的 <strong>类型信息</strong> 以及 <strong>变量名</strong> 并编号，类型信息包含<strong>serialVersionUID</strong></p>
+<p>3.如果成员变量是引用类型或数组，则需要写入数组与类在虚拟机中的表现类型</p>
+<p>4.写入对象的值，由于前面已经将类型的引用全部编号，后续可以直接引用</p>
+<p>5.如果是基本类型（除数组与引用类型）直接写入String</p>
+<p>6.如果是已经类型，则需要递归前面的操作</p>
+<h4 id="自定义序列化"><a href="#自定义序列化" class="headerlink" title="自定义序列化"></a>自定义序列化</h4><p>之所以会有自定义的序列化，原因有以下几个：</p>
+<p>1.安全校验 对于安全性要求比较严格的数据一般需要通过比较严格的数据校验才使用</p>
+<p>2.独立控制序列化与反序列化的流程，方便定制</p>
+<p>readObject方法  readObject方法相当于类的另一个共有的构造器，构造器必须要做参数合法性校验，并在有必要时对参数进行保护性拷贝</p>
+<p>writeObject方法 如果类中存在该方法，则对象的序列化只会执行该方法而放弃默认的序列化方式，所以如果仅仅是只做参数的安全性校验还需要调用默认的序列化方法</p>
+<p>readResolve方法 在单例模式下，如果当前单例类实现了序列化接口，那么该单例就有可能在反序列化时跳过构造函数，而产生不同的对象，所以有必要在readResolve方法中将返回值手动指向创建的全局单例对象</p>
+<h4 id="序列化代理"><a href="#序列化代理" class="headerlink" title="序列化代理"></a>序列化代理</h4><p>序列化代理是目前认为比较好的对象序列化的方法，原因是通过序列化代理可以控制对象的创建一定需要经过构造函数，从而能在构造函数中对参数进行控制<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Interval</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Date start;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Date end;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Interval</span><span class="params">(Date start, Date end)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.start = <span class="keyword">new</span> Date(start.getTime());</span><br><span class="line">        <span class="keyword">this</span>.end = <span class="keyword">new</span> Date(end.getTime());</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.start.compareTo(<span class="keyword">this</span>.end) &gt; <span class="number">0</span>)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(start + <span class="string">" after "</span> + end);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Date <span class="title">getStart</span><span class="params">()</span> </span>&#123;<span class="keyword">return</span> <span class="keyword">new</span> Date(start.getTime());&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Date <span class="title">getEnd</span><span class="params">()</span> </span>&#123;<span class="keyword">return</span> <span class="keyword">new</span> Date(end.getTime());&#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"Interval&#123;"</span> + <span class="string">"start="</span> + start + <span class="string">", end="</span> + end + <span class="string">'&#125;'</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">SerializationProxy</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serivalVersionUID = <span class="number">213214124141L</span>;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">final</span> Date start;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">final</span> Date end;</span><br><span class="line"></span><br><span class="line">        SerializationProxy(Interval interval) &#123;</span><br><span class="line">            <span class="keyword">this</span>.start = interval.start;</span><br><span class="line">            <span class="keyword">this</span>.end = interval.end;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> Object <span class="title">writeReplace</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    	<span class="keyword">return</span> <span class="keyword">new</span> SerializationProxy(<span class="keyword">this</span>);</span><br><span class="line">    &#125;	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这个方法的存在导致序列化系统产生一个SerializationProxy实例，代替外围类的实例，也就是说，writeReplace方法在序列化之前，将外围类的实例转变成了它的序列化代理。这样序列化系统就永远不会产生外围类的序列化实例，但是攻击者可能伪造，企图违反该类的约束条件，为了应付这个，我们只需向前面所做的一样，在Interval类里添加一个readObject方法，它禁止了反序列化外围类。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">readObject</span><span class="params">(ObjectInputStream ois)</span> <span class="keyword">throws</span> InvalidObjectException </span>&#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> InvalidObjectException(<span class="string">"Proxy required!"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>最后，我们只要在SerializationProxy类添加一个readResolve方法，它返回一个逻辑上相当的外围类的实例，它可以让序列化系统在反序列化的时候将序列化代理转变回外围类的实例。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> Object <span class="title">readResolve</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Interval(start, end);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这个readResolve方法仅仅利用了外围类的公有构造器创建了外围类的一个实例，它极大的消除了序列化机制中语言本身之外的特征，因为反序列实例是利用与任何其他实例相同的构造器，静态工厂和方法创建的，和直接创建的实例没有什么区别，这样你就不必单独确保反序列化的实例一定要遵守类的约束条件了。<br>　　正如保护性拷贝一样，序列化代理方法可以阻止伪字节流攻击和内部域盗用攻击，而且这种方法允许Interval的域为final，这种方法也也使我们省了不少麻烦，你不必知道哪些域可能受到狡猾的序列化攻击的威胁，你也不必显示地执行有效检查，作为反序列化的一部分。</p>
+<h4 id="transient关键字"><a href="#transient关键字" class="headerlink" title="transient关键字"></a>transient关键字</h4><p>如果对象的成员变量被transient关键字修饰，那么在序列化与反序列化的过程中会忽略该字段</p>
+<h4 id="serialVersionUID"><a href="#serialVersionUID" class="headerlink" title="serialVersionUID"></a>serialVersionUID</h4><p>如果一个类实现了Serializable接口，那么请尽量提供serialVersionUID的值，目前这个值有两种提供方式，一个是使用默认的值，一种是编译器提供一个随机数。</p>
+<p>如果没有提供UID字段，那么系统在序列化与反序列化会通过一系列的散列算法计算出一个对应的值，如果当前的类在序列化之后发生了改变，那么两个类在反序列化时由于生成的UID对应不上会报错。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">**如果当前类实现了Serializable接口，为了避免在后面类的迭代过程中反序列化出错，请显示提供serialVersionUID字段**</span><br></pre></td></tr></table></figure>
+<h4 id="深克隆"><a href="#深克隆" class="headerlink" title="深克隆"></a>深克隆</h4><p>由于通过序列化与反序列化产生的是完全不同的对象，所以可以用来做对象的深克隆，但是深克隆构建对象比复制或者克隆数据域的方法要慢很多</p>
+<p>实现代码在上面</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">**如果一个对象被同时序列化两次，即便后一次对当前对象的属性作了修改，在序列化时由于当前的对象已经存在，所以存在序列化流中的只是当前对象的一个引用，反序列化出来的是同一个对象。**</span><br></pre></td></tr></table></figure>
+<h4 id="android中的序列化方式-parelable"><a href="#android中的序列化方式-parelable" class="headerlink" title="android中的序列化方式 parelable"></a>android中的序列化方式 parelable</h4><p>1.serializable一般用于数据的持久化，使用I/O读写存储于硬盘<br>2.parcelable直接在内存中读写，速度要比serializable快很多<br>3.serializable会使用到反射，而反射是很耗性能的操作<br>4.arcelable是自己实现封送与解封，过程中不涉及反射等耗性能操作，数据也存储在Native内存中，效率比serializable要高很多</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">综上：serializable实现简单，性能消耗大，效率低，内存占用大。 parcelable实现相对复杂，但是内存占用率较低，且没有反射等耗性能操作，效率极高。在android等移动设备中应该优先使用parcelable</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+    <div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+  
+    </div>
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/10/singleton-pattern/" rel="next" title="单例模式详解">
+                <i class="fa fa-chevron-left"></i> 单例模式详解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="（BrokenO)">
+          <p class="site-author-name" itemprop="name">（BrokenO)</p>
+           
+              <p class="site-description motion-element" itemprop="description">stay hungry,stay foolish</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#定义"><span class="nav-number">1.</span> <span class="nav-text">定义</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#输入输出流"><span class="nav-number">1.1.</span> <span class="nav-text">输入输出流</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#序列化的作用"><span class="nav-number">2.</span> <span class="nav-text">序列化的作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#序列化的实现"><span class="nav-number">3.</span> <span class="nav-text">序列化的实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#标准的序列化"><span class="nav-number">3.1.</span> <span class="nav-text">标准的序列化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#自定义序列化"><span class="nav-number">3.2.</span> <span class="nav-text">自定义序列化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#序列化代理"><span class="nav-number">3.3.</span> <span class="nav-text">序列化代理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#transient关键字"><span class="nav-number">3.4.</span> <span class="nav-text">transient关键字</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#serialVersionUID"><span class="nav-number">3.5.</span> <span class="nav-text">serialVersionUID</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#深克隆"><span class="nav-number">3.6.</span> <span class="nav-text">深克隆</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#android中的序列化方式-parelable"><span class="nav-number">3.7.</span> <span class="nav-text">android中的序列化方式 parelable</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <span class="footer__copyright">
+<div><span id="span_dt_dt"> </span>
+<script language="javascript">
+function show_date_time(){
+window.setTimeout("show_date_time()", 1000);
+BirthDay=new Date("9/9/2018 00:00:00");//这个日期是可以修改的
+today=new Date();
+timeold=(today.getTime()-BirthDay.getTime());//其实仅仅改了这里
+sectimeold=timeold/1000
+secondsold=Math.floor(sectimeold);
+msPerDay=24*60*60*1000
+e_daysold=timeold/msPerDay
+daysold=Math.floor(e_daysold);
+e_hrsold=(e_daysold-daysold)*24;
+hrsold=Math.floor(e_hrsold);
+e_minsold=(e_hrsold-hrsold)*60;
+minsold=Math.floor((e_hrsold-hrsold)*60);
+seconds=Math.floor((e_minsold-minsold)*60);
+span_dt_dt.innerHTML="博客已建立运行"+daysold+"天"+hrsold+"小时"+minsold+"分"+seconds+"秒 🐼 ";
+}
+show_date_time();
+</script></div>
+</span>
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">
+  
+  &copy;  2018 - 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">（BrokenO)</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_pv"></span>
+</span>
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Gemini
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/clicklove.js"></script>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
