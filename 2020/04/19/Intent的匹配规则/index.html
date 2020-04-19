@@ -111,20 +111,19 @@
 
 
 
-<meta name="description" content="理解一个设计模式要掌握的要点：1.这个设计模式的意图是什么？它要解决一个什么问题？什么时候可以使用它？ 2.它是如何解决问题的？掌握它的结构图，记住关键代码 3.能够想到这个设计模式的两个应用实例，一个生活中，一个软件中 4.这个模式的优缺点是什么？在使用时要注意什么 5.多运用，多实践，多运用，多实践，多运用，多实践（重要的问题说三遍！！！）">
+<meta name="description" content="Intent的作用范围Intent是用于除ContentProvider的其他三大组件（Activity，Service，BroadcastReceiver） android应用安装之后，系统会读取其相应的manifest.xml清单文件，会将其中的组件一一归类保存，每一个组件中可以包含0个1个或者多个 Intent-Filter123当应用需要启动除ContentProvider之外的三大组件时">
 <meta property="og:type" content="article">
-<meta property="og:title" content="面向对象程序设计原则">
-<meta property="og:url" content="http://yoursite.com/2019/03/10/design-principles/index.html">
+<meta property="og:title" content="Intent的匹配规则">
+<meta property="og:url" content="http://yoursite.com/2020/04/19/Intent的匹配规则/index.html">
 <meta property="og:site_name" content="刘鹏(BrokenO)">
-<meta property="og:description" content="理解一个设计模式要掌握的要点：1.这个设计模式的意图是什么？它要解决一个什么问题？什么时候可以使用它？ 2.它是如何解决问题的？掌握它的结构图，记住关键代码 3.能够想到这个设计模式的两个应用实例，一个生活中，一个软件中 4.这个模式的优缺点是什么？在使用时要注意什么 5.多运用，多实践，多运用，多实践，多运用，多实践（重要的问题说三遍！！！）">
+<meta property="og:description" content="Intent的作用范围Intent是用于除ContentProvider的其他三大组件（Activity，Service，BroadcastReceiver） android应用安装之后，系统会读取其相应的manifest.xml清单文件，会将其中的组件一一归类保存，每一个组件中可以包含0个1个或者多个 Intent-Filter123当应用需要启动除ContentProvider之外的三大组件时">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/images/2019/03/10/05f71b20-4317-11e9-9d1e-f5f058a63503.png">
-<meta property="og:image" content="http://yoursite.com/images/2019/03/10/fb708e70-4316-11e9-9d1e-f5f058a63503.png">
-<meta property="og:updated_time" content="2019-10-24T06:05:38.584Z">
+<meta property="og:image" content="http://yoursite.com/images/2020/04/19/e5ae7ba0-81e6-11ea-92f8-ab273354db60.png">
+<meta property="og:updated_time" content="2020-04-19T05:15:34.024Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="面向对象程序设计原则">
-<meta name="twitter:description" content="理解一个设计模式要掌握的要点：1.这个设计模式的意图是什么？它要解决一个什么问题？什么时候可以使用它？ 2.它是如何解决问题的？掌握它的结构图，记住关键代码 3.能够想到这个设计模式的两个应用实例，一个生活中，一个软件中 4.这个模式的优缺点是什么？在使用时要注意什么 5.多运用，多实践，多运用，多实践，多运用，多实践（重要的问题说三遍！！！）">
-<meta name="twitter:image" content="http://yoursite.com/images/2019/03/10/05f71b20-4317-11e9-9d1e-f5f058a63503.png">
+<meta name="twitter:title" content="Intent的匹配规则">
+<meta name="twitter:description" content="Intent的作用范围Intent是用于除ContentProvider的其他三大组件（Activity，Service，BroadcastReceiver） android应用安装之后，系统会读取其相应的manifest.xml清单文件，会将其中的组件一一归类保存，每一个组件中可以包含0个1个或者多个 Intent-Filter123当应用需要启动除ContentProvider之外的三大组件时">
+<meta name="twitter:image" content="http://yoursite.com/images/2020/04/19/e5ae7ba0-81e6-11ea-92f8-ab273354db60.png">
 
 
 
@@ -153,13 +152,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/03/10/design-principles/">
+  <link rel="canonical" href="http://yoursite.com/2020/04/19/Intent的匹配规则/">
 
 
 
 
 
-  <title>面向对象程序设计原则 | 刘鹏(BrokenO)</title>
+  <title>Intent的匹配规则 | 刘鹏(BrokenO)</title>
   
 
 
@@ -313,7 +312,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/10/design-principles/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/19/Intent的匹配规则/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="（BrokenO)">
@@ -330,7 +329,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">面向对象程序设计原则</h1>
+          <h1 class="post-title" itemprop="name headline">Intent的匹配规则</h1>
         
 
         <div class="post-meta">
@@ -342,8 +341,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-10T16:54:27+08:00">
-                2019-03-10
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-19T09:41:09+08:00">
+                2020-04-19
               </time>
             
 
@@ -365,19 +364,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JAVA/" itemprop="url" rel="index">
-                    <span itemprop="name">JAVA</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JAVA/设计模式/" itemprop="url" rel="index">
-                    <span itemprop="name">设计模式</span>
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
                   </a>
                 </span>
 
@@ -412,34 +400,19 @@
       
 
       
-        <h3 id="理解一个设计模式要掌握的要点："><a href="#理解一个设计模式要掌握的要点：" class="headerlink" title="理解一个设计模式要掌握的要点："></a>理解一个设计模式要掌握的要点：</h3><p></p><p class="div-blue"><br>1.这个设计模式的意图是什么？它要解决一个什么问题？什么时候可以使用它？</p>
-<p>2.它是如何解决问题的？掌握它的结构图，记住关键代码</p>
-<p>3.能够想到这个设计模式的两个应用实例，一个生活中，一个软件中</p>
-<p>4.这个模式的优缺点是什么？在使用时要注意什么</p>
-<p>5.多运用，多实践，多运用，多实践，多运用，多实践（重要的问题说三遍！！！）<br></p><br><a id="more"></a><p></p>
-<h3 id="实际应用中共有三类共24中设计模式如图所示："><a href="#实际应用中共有三类共24中设计模式如图所示：" class="headerlink" title="实际应用中共有三类共24中设计模式如图所示："></a>实际应用中共有三类共24中设计模式如图所示：</h3><p><img src="/images/2019/03/10/05f71b20-4317-11e9-9d1e-f5f058a63503.png" alt="image.png"></p>
-<p><img src="/images/2019/03/10/fb708e70-4316-11e9-9d1e-f5f058a63503.png" alt="image.png"></p>
-<p>创建型：单例模式，简单工厂模式，工厂方法模式，抽象工厂模式，原型模式，创建者模式（6种）</p>
-<p>结构型：适配器，桥接，组合，装饰，外观，享元，代理（7种）</p>
-<p>行为型：访问者，策略，观察者，责任链，命令，解释器，迭代器，中介者，备忘录，状态，模板（11种）</p>
-<h3 id="单一职责原则-（SRP）"><a href="#单一职责原则-（SRP）" class="headerlink" title="单一职责原则 （SRP）"></a>单一职责原则 （SRP）</h3><p>定义：一个类只负责一个功能领域中的相应职责，或者说，就一个类而言，应该只有一个引起它变化的原因</p>
-<p><strong>单一职责原则是实现高类聚，低耦合的指导方针，一个类承载的职责越多，可复用性就越低</strong></p>
-<h3 id="开闭原则-（OCP）"><a href="#开闭原则-（OCP）" class="headerlink" title="开闭原则 （OCP）"></a>开闭原则 （OCP）</h3><p>定义：<strong>一个软件实体应该对扩展开放，对修改关闭。即软件应该在不修改现有的代码的情况下进行扩展</strong></p>
-<p><strong>为了满足开闭原则，需要对系统进行抽象化设计，抽象化是开闭原则的关键</strong></p>
-<p>开闭原则是所有设计模式优缺点的一个评价要点，并以此判断系统是否具备有良好的灵活性与扩展性</p>
-<h3 id="里氏替换原则-（LSP）"><a href="#里氏替换原则-（LSP）" class="headerlink" title="里氏替换原则 （LSP）"></a>里氏替换原则 （LSP）</h3><p>定义：所有引用基类（父类）的地方必须能透明的使用其子类对象。也就是说在程序中尽量使用基类类型来对对象进行定义，而在运行时再确定其子类类型，用子类对象来替换父类对象。</p>
-<p><strong>在运用里氏替换原则时，应将父类设计为抽象类或者接口，让子类继承或实现父类接口，并实现再父类中声明的方法，可以很方便的扩展功能，无需修改现有子类的代码，增加新的功能可以通过增加一个新的子类实现</strong></p>
-<h3 id="依赖倒转原则-（DIP）"><a href="#依赖倒转原则-（DIP）" class="headerlink" title="依赖倒转原则 （DIP）"></a>依赖倒转原则 （DIP）</h3><p>定义：抽象不应该依赖与细节，细节应该依赖于抽象。换句话说就是：要针对接口编程，而不是针对实现编程</p>
-<p>依赖倒置的原则要求在代码中传递参数或在关联关系中，<strong>尽量使用层次高的抽象层类，即使用接口与抽象类进行变量声明，参数类型声明以及方法返回类型声明，以及数据类型的转换，而不要使用具体类来做这些事情。</strong>一个具体的类应该只实现抽象类或者接口中的方法，否则无法调用到在子类中声明的方法。</p>
-<p>比方说： A能读txt文件，B能读 pdf文件，调用方需要接收读文件的结果。其设计模式应为：调用方需要的只是一份文件，不管时TXT还是pdf，所以要引入一个读文件的抽象，其中有一个read方法，而A跟B实现这个抽象</p>
-<p>在实现依赖倒转原则时需要针对抽象层进行编程，而将具体类的对象通过<strong>依赖注入</strong>的方式注入到其他对象中。<strong>依赖注入是指当一个对象要与其他对象发生关系时，通过抽象来注入所依赖的对象。</strong><br>常用的注入有三种方式：<strong>构造注入，设置注入（setter）和接口注入</strong></p>
-<p><strong>在一般情况下，依赖注入，里氏替换与开闭原则会同时出现，开闭原则是目标，里氏替换是基础，依赖注入是手段。</strong></p>
-<h3 id="接口隔离原则-（ISP）"><a href="#接口隔离原则-（ISP）" class="headerlink" title="接口隔离原则 （ISP）"></a>接口隔离原则 （ISP）</h3><p>定义：使用多个专门的接口，而不是使用单一的总接口，即客户端不应该依赖那些它不需要的接口</p>
-<p>当一个接口太大时，可以将其分割为一些更小的接口，每一个接口应当承担相对独立的角色。</p>
-<p>原则就是，给你想要的，你不想要的坚决不给。</p>
-<h3 id="合成复用原则-（CARP）"><a href="#合成复用原则-（CARP）" class="headerlink" title="合成复用原则 （CARP）"></a>合成复用原则 （CARP）</h3><p>定义：<strong>尽量使用对象组合，而不是使用继承来达到复用的目的</strong>。</p>
-<h3 id="迪米特法则：（CRP）"><a href="#迪米特法则：（CRP）" class="headerlink" title="迪米特法则：（CRP）"></a>迪米特法则：（CRP）</h3><p>定义：一个软件实体 应当尽可能的少于其他实体发生相互作用</p>
-<p>当一个模块发生修改时，应当尽量少的影响到其他模块，扩展相对会容易</p>
+        <h3 id="Intent的作用范围"><a href="#Intent的作用范围" class="headerlink" title="Intent的作用范围"></a>Intent的作用范围</h3><p>Intent是用于除ContentProvider的其他三大组件（Activity，Service，BroadcastReceiver）</p>
+<p>android应用安装之后，系统会读取其相应的manifest.xml清单文件，会将其中的组件一一归类保存，<strong>每一个组件中可以包含0个1个或者多个 Intent-Filter</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">当应用需要启动除ContentProvider之外的三大组件时，如果Intent中没有设置对应组件的类名（全路径），则系统会通过Intent-filter的匹配来查找对应的具体组件。如果设置了对应组件的类名，则即便在manifest文件中存在Intent-filter，系统也不再进行Intent-filter的匹配去寻找对应的组件。</span><br><span class="line"></span><br><span class="line">简单来说就是，如果指定了对象，直接启动，没指定对象，遍历所有的组件，寻找合适的启动。</span><br></pre></td></tr></table></figure></p>
+<h4 id="注意："><a href="#注意：" class="headerlink" title="注意："></a>注意：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Intent-filter匹配的结果可以是一个，可以是多个，也可能一个也没有。</span><br></pre></td></tr></table></figure>
+<h3 id="Intent的组成"><a href="#Intent的组成" class="headerlink" title="Intent的组成"></a>Intent的组成</h3><p><img src="/images/2020/04/19/e5ae7ba0-81e6-11ea-92f8-ab273354db60.png" alt="image.png"></p>
+<h5 id="Intent-filter与组件（activity等）的关系："><a href="#Intent-filter与组件（activity等）的关系：" class="headerlink" title="Intent-filter与组件（activity等）的关系："></a>Intent-filter与组件（activity等）的关系：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.在manifest.xml中一个组件（Activity等）中可以包含多个intent-filter标签,只要有一个intent-filter标签匹配，即表示匹配成功</span><br><span class="line"></span><br><span class="line">2.一个intent-filter标签中可以包含多个category，多个action</span><br></pre></td></tr></table></figure>
+<p><strong>Category，action，data三个共同影响intent-filter的匹配结果，只有三项完全匹配才算匹配成功</strong>，其中任意一个匹配失败，则当前intent-filter匹配失败</p>
+<h3 id="Category的匹配规则"><a href="#Category的匹配规则" class="headerlink" title="Category的匹配规则"></a>Category的匹配规则</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1.如果intent中包含了category选项，则必须与intent-filter中完全匹配，才算匹配成功。</span><br><span class="line"></span><br><span class="line">2.如果intent中不包含category选项，则系统会在intent中添加一个默认的**android.intent.category.DEFAULT**选项，这也是想要隐式启动的组件的intent-filter中必须要添加category为android.intent.category.DEFAULT选项的原因。</span><br><span class="line"></span><br><span class="line">3.上面说了一个intent-filter中可以包含多个category，则只要intent中的category是intent-filter中的子集（即被包含于intent-filter）既可以通过category匹配</span><br></pre></td></tr></table></figure>
+<h3 id="Action的匹配规则"><a href="#Action的匹配规则" class="headerlink" title="Action的匹配规则"></a>Action的匹配规则</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1.隐式启动的intent中必须包含action，否则匹配不能成功</span><br><span class="line"></span><br><span class="line">2.如果包含action，则action必须完全匹配成功方能成功，注意：匹配区分大小写</span><br><span class="line"></span><br><span class="line">3.上面提到intent-filter中可以有多个action，只要intent中的action是intent-filter中action的子集，即可通过匹配。</span><br></pre></td></tr></table></figure>
+<h3 id="Data的匹配规则"><a href="#Data的匹配规则" class="headerlink" title="Data的匹配规则"></a>Data的匹配规则</h3><p>intent中的data由 MIME Type 与URI组成</p>
+<p>data的匹配与其他两项不同，前面两项都强调intent中的值必须是intent-filter中的子集，<strong>而data只有intent-filter中存在data标签，才需要去匹配intent中的data字段</strong>，比如filter中指定了mimeType则只需要匹配intent中mimeType类型</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">不扯那些没用的，就一句话，intent-filter中data有啥 intent就匹配啥，没有的直接匹配成功</span><br><span class="line"></span><br><span class="line">如果intent-filter中的 MIME Type不为空，而intent中的为空，但是URI不为空，且通过URI能推断出MIME Type则一样能通过匹配</span><br></pre></td></tr></table></figure>
+<h3 id="Extra"><a href="#Extra" class="headerlink" title="Extra"></a>Extra</h3><p>Extra是通过一个bundle报保存键值对数据，由于bundle实现了parcelable接口，能实现序列化可以做到跨进程传输</p>
+<h3 id="Flags"><a href="#Flags" class="headerlink" title="Flags"></a>Flags</h3><p>该处的flags主要用于组件的启动标志，与组件的启动模式有关，具体看下一篇：Activity的启动模式</p>
 
       
     </div>
@@ -473,8 +446,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/03/08/okhttp/" rel="next" title="okhttp3 的工作原理与源码分析">
-                <i class="fa fa-chevron-left"></i> okhttp3 的工作原理与源码分析
+              <a href="/2019/10/26/序列化/" rel="next" title="序列化">
+                <i class="fa fa-chevron-left"></i> 序列化
               </a>
             
           </div>
@@ -482,10 +455,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/03/10/singleton-pattern/" rel="prev" title="单例模式详解">
-                单例模式详解 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -624,7 +593,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#理解一个设计模式要掌握的要点："><span class="nav-number">1.</span> <span class="nav-text">理解一个设计模式要掌握的要点：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实际应用中共有三类共24中设计模式如图所示："><span class="nav-number">2.</span> <span class="nav-text">实际应用中共有三类共24中设计模式如图所示：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#单一职责原则-（SRP）"><span class="nav-number">3.</span> <span class="nav-text">单一职责原则 （SRP）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#开闭原则-（OCP）"><span class="nav-number">4.</span> <span class="nav-text">开闭原则 （OCP）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#里氏替换原则-（LSP）"><span class="nav-number">5.</span> <span class="nav-text">里氏替换原则 （LSP）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#依赖倒转原则-（DIP）"><span class="nav-number">6.</span> <span class="nav-text">依赖倒转原则 （DIP）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#接口隔离原则-（ISP）"><span class="nav-number">7.</span> <span class="nav-text">接口隔离原则 （ISP）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#合成复用原则-（CARP）"><span class="nav-number">8.</span> <span class="nav-text">合成复用原则 （CARP）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#迪米特法则：（CRP）"><span class="nav-number">9.</span> <span class="nav-text">迪米特法则：（CRP）</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Intent的作用范围"><span class="nav-number">1.</span> <span class="nav-text">Intent的作用范围</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#注意："><span class="nav-number">1.1.</span> <span class="nav-text">注意：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Intent的组成"><span class="nav-number">2.</span> <span class="nav-text">Intent的组成</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Intent-filter与组件（activity等）的关系："><span class="nav-number">2.0.1.</span> <span class="nav-text">Intent-filter与组件（activity等）的关系：</span></a></li></ol></li></ol><li class="nav-item nav-level-3"><a class="nav-link" href="#Category的匹配规则"><span class="nav-number">3.</span> <span class="nav-text">Category的匹配规则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Action的匹配规则"><span class="nav-number">4.</span> <span class="nav-text">Action的匹配规则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Data的匹配规则"><span class="nav-number">5.</span> <span class="nav-text">Data的匹配规则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Extra"><span class="nav-number">6.</span> <span class="nav-text">Extra</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Flags"><span class="nav-number">7.</span> <span class="nav-text">Flags</span></a></li></div>
             
 
           </div>
