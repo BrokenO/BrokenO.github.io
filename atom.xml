@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-04-19T08:15:55.104Z</updated>
+  <updated>2020-04-19T15:57:14.861Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Activity的生命周期</title>
+    <link href="http://yoursite.com/2020/04/19/Activity%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/"/>
+    <id>http://yoursite.com/2020/04/19/Activity的生命周期/</id>
+    <published>2020-04-19T15:37:41.000Z</published>
+    <updated>2020-04-19T15:57:14.861Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="借用神图一张"><a href="#借用神图一张" class="headerlink" title="借用神图一张"></a>借用神图一张</h3><p><img src="/images/2020/04/19/fbb42a90-824e-11ea-92f8-ab273354db60.png" alt="image.png"></p><h3 id="生命周期职责"><a href="#生命周期职责" class="headerlink" title="生命周期职责"></a>生命周期职责</h3><p>1.attach ：严格意义上来说attach算不上是activity生命周期的一部分。当activity被反射创建之后，会调用该方法对activity进行初始化，此时会做下面几个主要的工作：</p><ul><li>创建PhoneWindow对象</li><li>为PhoneWindow设置WindowManager</li><li>初始化Fragment控制器</li></ul><p>2.onCreate ：主要用于控件的设置与初始化，最主要的是viewTree的构建，功能如下：</p><ul><li>通过setContentView解析布局文件，从而构建ViewTree，并对其进行初始化</li><li>该方法在activity整个生命周期中只会调用一次</li><li>如果当前的activity是由于内存不足等原因被异常结束再回复，则该函数中的参数将不会为空。</li></ul><p>3.onStart：此方法被回调时表示Activity正在启动，此时Activity已处于可见状态，只是还没有在前台显示，因此无法与用户进行交互。可以简单理解为Activity已显示而我们无法看见摆了。如果当前activity是回收后被恢复，则在改方法或会执行onReatoreInstanceState方法</p><p>4.onResume：当此方法回调时，则说明Activity已在前台可见，可与用户交互了，onResume方法与onStart的相同点是两者都表示Activity可见，只不过onStart回调时Activity还是处于后台无法与用户交互，而onResume则已显示在前台，可与用户交互。此方法主要的工作：</p><ul><li>则获取attach中的PhoneWindow，将window添加到WindowManagerService中去</li><li>通过viewRootImp的添加开始DecorView的三大流程</li></ul><p>5.onPause：</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;借用神图一张&quot;&gt;&lt;a href=&quot;#借用神图一张&quot; class=&quot;headerlink&quot; title=&quot;借用神图一张&quot;&gt;&lt;/a&gt;借用神图一张&lt;/h3&gt;&lt;p&gt;&lt;img src=&quot;/images/2020/04/19/fbb42a90-824e-11ea-92f8-a
+      
+    
+    </summary>
+    
+      <category term="Android" scheme="http://yoursite.com/categories/Android/"/>
+    
+    
+      <category term="blog" scheme="http://yoursite.com/tags/blog/"/>
+    
+  </entry>
   
   <entry>
     <title>Activity的启动模式（Launch Mode）</title>

@@ -93,7 +93,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="blog,">
 
 
 
@@ -111,17 +111,20 @@
 
 
 
-<meta name="description" content="单例模式1.单例模式的设计意图是什么？它要解决一个什么问题？什么时候可以使用它？ 2.它是如何解决问题的？ 3.结构图是怎样的，有哪些关键代码 4.能够想到这个设计模式的两个应用实例，一个生活中，一个软件中 5.这个模式的优缺点是什么？在使用时要注意什么">
+<meta name="description" content="借用神图一张 生命周期职责1.attach ：严格意义上来说attach算不上是activity生命周期的一部分。当activity被反射创建之后，会调用该方法对activity进行初始化，此时会做下面几个主要的工作：  创建PhoneWindow对象 为PhoneWindow设置WindowManager 初始化Fragment控制器  2.onCreate ：主要用于控件的设置与初始化，最主要">
+<meta name="keywords" content="blog">
 <meta property="og:type" content="article">
-<meta property="og:title" content="单例模式详解">
-<meta property="og:url" content="http://yoursite.com/2019/03/10/singleton-pattern/index.html">
+<meta property="og:title" content="Activity的生命周期">
+<meta property="og:url" content="http://yoursite.com/2020/04/19/Activity的生命周期/index.html">
 <meta property="og:site_name" content="刘鹏(BrokenO)">
-<meta property="og:description" content="单例模式1.单例模式的设计意图是什么？它要解决一个什么问题？什么时候可以使用它？ 2.它是如何解决问题的？ 3.结构图是怎样的，有哪些关键代码 4.能够想到这个设计模式的两个应用实例，一个生活中，一个软件中 5.这个模式的优缺点是什么？在使用时要注意什么">
+<meta property="og:description" content="借用神图一张 生命周期职责1.attach ：严格意义上来说attach算不上是activity生命周期的一部分。当activity被反射创建之后，会调用该方法对activity进行初始化，此时会做下面几个主要的工作：  创建PhoneWindow对象 为PhoneWindow设置WindowManager 初始化Fragment控制器  2.onCreate ：主要用于控件的设置与初始化，最主要">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-05T04:26:24.526Z">
+<meta property="og:image" content="http://yoursite.com/images/2020/04/19/fbb42a90-824e-11ea-92f8-ab273354db60.png">
+<meta property="og:updated_time" content="2020-04-19T15:57:14.861Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="单例模式详解">
-<meta name="twitter:description" content="单例模式1.单例模式的设计意图是什么？它要解决一个什么问题？什么时候可以使用它？ 2.它是如何解决问题的？ 3.结构图是怎样的，有哪些关键代码 4.能够想到这个设计模式的两个应用实例，一个生活中，一个软件中 5.这个模式的优缺点是什么？在使用时要注意什么">
+<meta name="twitter:title" content="Activity的生命周期">
+<meta name="twitter:description" content="借用神图一张 生命周期职责1.attach ：严格意义上来说attach算不上是activity生命周期的一部分。当activity被反射创建之后，会调用该方法对activity进行初始化，此时会做下面几个主要的工作：  创建PhoneWindow对象 为PhoneWindow设置WindowManager 初始化Fragment控制器  2.onCreate ：主要用于控件的设置与初始化，最主要">
+<meta name="twitter:image" content="http://yoursite.com/images/2020/04/19/fbb42a90-824e-11ea-92f8-ab273354db60.png">
 
 
 
@@ -150,13 +153,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/03/10/singleton-pattern/">
+  <link rel="canonical" href="http://yoursite.com/2020/04/19/Activity的生命周期/">
 
 
 
 
 
-  <title>单例模式详解 | 刘鹏(BrokenO)</title>
+  <title>Activity的生命周期 | 刘鹏(BrokenO)</title>
   
 
 
@@ -310,7 +313,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/10/singleton-pattern/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/19/Activity的生命周期/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="（BrokenO)">
@@ -327,7 +330,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">单例模式详解</h1>
+          <h1 class="post-title" itemprop="name headline">Activity的生命周期</h1>
         
 
         <div class="post-meta">
@@ -339,8 +342,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-10T22:53:48+08:00">
-                2019-03-10
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-19T23:37:41+08:00">
+                2020-04-19
               </time>
             
 
@@ -349,6 +352,28 @@
             
           </span>
 
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -376,51 +401,26 @@
       
 
       
-        <h3 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h3><p>1.单例模式的设计意图是什么？它要解决一个什么问题？什么时候可以使用它？</p>
-<p>2.它是如何解决问题的？</p>
-<p>3.结构图是怎样的，有哪些关键代码</p>
-<p>4.能够想到这个设计模式的两个应用实例，一个生活中，一个软件中</p>
-<p>5.这个模式的优缺点是什么？在使用时要注意什么</p>
-<a id="more"></a>
-<h3 id="单例模式的设计意图"><a href="#单例模式的设计意图" class="headerlink" title="单例模式的设计意图"></a>单例模式的设计意图</h3><p>单例模式设计的意图是 为了节约系统资源，确保当前的类在进程的生命周期中只会存在一个实例，也就是说当前类的构造方法在进程的生命周期中只会被调用一次。</p>
-<p>如果有些类占用资源太多，或者如果有多个实例会难于管理，比方说线程池，数据库连接池之类的，这些需要使用到单例模式</p>
-<h3 id="单例模式是如何解决问题的？"><a href="#单例模式是如何解决问题的？" class="headerlink" title="单例模式是如何解决问题的？"></a>单例模式是如何解决问题的？</h3><p>因为在进程中只存在唯一的一个实例，所以在任意时刻通过该类拿到的永远是同一个对象，实现了资源的复用</p>
-<h3 id="单例模式的实现与结构图"><a href="#单例模式的实现与结构图" class="headerlink" title="单例模式的实现与结构图"></a>单例模式的实现与结构图</h3><p>目前实现单例模式的方式著有要三种 ：<strong>静态内部类（推荐），枚举（一般），双重检查锁 DCL（一般）</strong></p>
-<h3 id="要实现单例要做的几件事"><a href="#要实现单例要做的几件事" class="headerlink" title="要实现单例要做的几件事"></a>要实现单例要做的几件事</h3><ol>
-<li><p>构造器必需私有化，也就是说外部不能调用到自己的构造方法</p>
-</li>
-<li><p>拥有一个全局的私有静态变量</p>
-</li>
-<li><p>提供一个访问该私有变量的静态方法</p>
-</li>
-</ol>
-<h3 id="静态内部类的实现方式"><a href="#静态内部类的实现方式" class="headerlink" title="静态内部类的实现方式"></a>静态内部类的实现方式</h3><p>静态内部类实现单例的原理是 利用 JVM 的 <strong>类加载机制实现的</strong>。类加载时会在<strong>初始化阶段</strong>为所有的静态变量赋值。</p>
-<p>其典型的代码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">SingleHodler</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span>  xxx  instance = <span class="keyword">new</span> xxx();</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> xxx&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> xxx <span class="title">getInstance</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> SingleHodler.instance;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h3 id="枚举"><a href="#枚举" class="headerlink" title="枚举"></a>枚举</h3><p>枚举没啥好说的，其实现原理与静态内部类一样</p>
-<p>但是枚举要注意一个反序列化生成对象的问题，通过序列化可以将一个对象写入到磁盘，然后要使用的时候通过反序列化可以得到一个新的对象，这就有可能使得单例模式失效。</p>
-<p>反序列化提供了一个很特别的钩子函数，类中具有一个私有的被实例化的方法 <code>readResolve</code> ,我们可以通过控制该方法控制对象的反序列化，要杜绝反序列化生成新对象可以实现如下方法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> Object <span class="title">readResolve</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> instance;<span class="comment">//返回自己创建的单例</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>这个方法是底层通过反射调用的</p>
-<h3 id="双重检查锁（double-ckeck-lock）"><a href="#双重检查锁（double-ckeck-lock）" class="headerlink" title="双重检查锁（double ckeck lock）"></a>双重检查锁（double ckeck lock）</h3><p>双重检查锁的目的是为了解决<strong>多线程下单例</strong>的问题。<strong>其使用的volatile关键字在JDK1.5以后才有，并且volatile的禁止指令重排机制会屏蔽虚拟机的一些优化操作，因此并不是单例的一种完美实现方式。</strong></p>
-<p><strong>如果static变量不添加volatile关键字是有可能导致单例失效的</strong>，其具体原因如下：</p>
-<p>一个对象的创建过程由这么几步组成，1.分配内存 2.初始化 3.将instance对象指向分配的内存空间。那么由于JVM允许在执行时进行指令优化，如果不添加volatile关键字，那么2与3的执行顺序是不确定的，有可能是1-2-3，也有可能是1-3-2.如果是1-3-2，3先执行，2未执行，如果此时切换线程B，此时instance在线程A中已经执行过3了，所以instance不为空，线程B会直接取走instance，在使用的时候就会报错，这就是DCL失效的问题</p>
-<h3 id="单例模式的优缺点"><a href="#单例模式的优缺点" class="headerlink" title="单例模式的优缺点"></a>单例模式的优缺点</h3><p>优点：</p>
-<ol>
-<li><p>提供了唯一对象的受控访问，可以严格控制用户的访问</p>
-</li>
-<li><p>由于内存中只存在一个对象，节约了系统资源</p>
-</li>
-</ol>
-<p>缺点：</p>
-<ol>
-<li><p>由于单例模式中没有抽象层，所以扩展会很困难</p>
-</li>
-<li><p>单例类的职责过重，在一定程度上违反了单一职责原则</p>
-</li>
-<li><p>在很多面向对象语言中都提供了垃圾自动回收机制，如果实例共享对象长时间没有被引用，会被收集器回收，再次使用时会重新创建对象，此时有可能会导致共享对象的状态丢失</p>
-</li>
-</ol>
-<p>目前推荐使用的是静态内部类与枚举</p>
-<p><strong>为了防止反射与反序列化重新创建对象由如下解决方式：如果是反射，可以在构造函数中判断当前实例是否存在，如果已经存在则抛出异常，反序列化前面已经讲过了不再重复。</strong></p>
+        <h3 id="借用神图一张"><a href="#借用神图一张" class="headerlink" title="借用神图一张"></a>借用神图一张</h3><p><img src="/images/2020/04/19/fbb42a90-824e-11ea-92f8-ab273354db60.png" alt="image.png"></p>
+<h3 id="生命周期职责"><a href="#生命周期职责" class="headerlink" title="生命周期职责"></a>生命周期职责</h3><p>1.attach ：严格意义上来说attach算不上是activity生命周期的一部分。当activity被反射创建之后，会调用该方法对activity进行初始化，此时会做下面几个主要的工作：</p>
+<ul>
+<li>创建PhoneWindow对象</li>
+<li>为PhoneWindow设置WindowManager</li>
+<li>初始化Fragment控制器</li>
+</ul>
+<p>2.onCreate ：主要用于控件的设置与初始化，最主要的是viewTree的构建，功能如下：</p>
+<ul>
+<li>通过setContentView解析布局文件，从而构建ViewTree，并对其进行初始化</li>
+<li>该方法在activity整个生命周期中只会调用一次</li>
+<li>如果当前的activity是由于内存不足等原因被异常结束再回复，则该函数中的参数将不会为空。</li>
+</ul>
+<p>3.onStart：此方法被回调时表示Activity正在启动，此时Activity已处于可见状态，只是还没有在前台显示，因此无法与用户进行交互。可以简单理解为Activity已显示而我们无法看见摆了。如果当前activity是回收后被恢复，则在改方法或会执行onReatoreInstanceState方法</p>
+<p>4.onResume：当此方法回调时，则说明Activity已在前台可见，可与用户交互了，onResume方法与onStart的相同点是两者都表示Activity可见，只不过onStart回调时Activity还是处于后台无法与用户交互，而onResume则已显示在前台，可与用户交互。此方法主要的工作：</p>
+<ul>
+<li>则获取attach中的PhoneWindow，将window添加到WindowManagerService中去</li>
+<li>通过viewRootImp的添加开始DecorView的三大流程</li>
+</ul>
+<p>5.onPause：</p>
 
       
     </div>
@@ -445,6 +445,12 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/blog/" rel="tag"><i class="fa fa-tag"></i> blog</a>
+          
+        </div>
+      
 
       
       
@@ -454,8 +460,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/03/10/design-principles/" rel="next" title="面向对象程序设计原则">
-                <i class="fa fa-chevron-left"></i> 面向对象程序设计原则
+              <a href="/2020/04/19/Activity的启动模式（Launch-Mode）/" rel="next" title="Activity的启动模式（Launch Mode）">
+                <i class="fa fa-chevron-left"></i> Activity的启动模式（Launch Mode）
               </a>
             
           </div>
@@ -463,10 +469,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/10/26/序列化/" rel="prev" title="序列化">
-                序列化 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -605,7 +607,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#单例模式"><span class="nav-number">1.</span> <span class="nav-text">单例模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#单例模式的设计意图"><span class="nav-number">2.</span> <span class="nav-text">单例模式的设计意图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#单例模式是如何解决问题的？"><span class="nav-number">3.</span> <span class="nav-text">单例模式是如何解决问题的？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#单例模式的实现与结构图"><span class="nav-number">4.</span> <span class="nav-text">单例模式的实现与结构图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#要实现单例要做的几件事"><span class="nav-number">5.</span> <span class="nav-text">要实现单例要做的几件事</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#静态内部类的实现方式"><span class="nav-number">6.</span> <span class="nav-text">静态内部类的实现方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#枚举"><span class="nav-number">7.</span> <span class="nav-text">枚举</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#双重检查锁（double-ckeck-lock）"><span class="nav-number">8.</span> <span class="nav-text">双重检查锁（double ckeck lock）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#单例模式的优缺点"><span class="nav-number">9.</span> <span class="nav-text">单例模式的优缺点</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#借用神图一张"><span class="nav-number">1.</span> <span class="nav-text">借用神图一张</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生命周期职责"><span class="nav-number">2.</span> <span class="nav-text">生命周期职责</span></a></li></ol></div>
             
 
           </div>
