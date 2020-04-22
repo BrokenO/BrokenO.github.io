@@ -240,7 +240,6 @@
                   {{ post.description }}
               </div>
           {% endif %}
-
         </div>
       </header>
     {% endif %}

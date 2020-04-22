@@ -4,8 +4,6 @@ tags:
   - blog
 categories:
   - Hexo
-  - Next
-  - github
 toc: false
 date: 2019-03-07 11:02:47
 ---

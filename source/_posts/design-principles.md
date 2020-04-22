@@ -1,8 +1,8 @@
 ---
 title: 面向对象程序设计原则
-tags:
-  - blog
+tags: []
 categories:
+  - JAVA
   - 设计模式
 toc: false
 date: 2019-03-10 16:54:27

@@ -1,9 +1,11 @@
 ---
 title: https 加密解密以及验证与签名
 tags:
-  - blog
+  - 网络传输
+  - ssl/tls
 categories:
   - HTTP
+  - HTTPS
 toc: false
 date: 2019-03-08 10:55:21
 ---

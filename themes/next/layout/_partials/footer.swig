@@ -21,6 +21,7 @@ span_dt_dt.innerHTML="博客已建立运行"+daysold+"天"+hrsold+"小时"+minso
 show_date_time();
 </script></div>
 </span>
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 <div class="copyright" >
   {% set current = date(Date.now(), "YYYY") %}
   &copy; {% if theme.since and theme.since != current %} {{ theme.since }} - {% endif %}
@@ -34,6 +35,12 @@ show_date_time();
 {% if theme.copyright %}
 <div class="powered-by">
   {{ __('footer.powered', '<a class="theme-link" href="https://hexo.io">Hexo</a>') }}
+</div>
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_pv"></span>
+</span>
 </div>
 
 <div class="theme-info">
